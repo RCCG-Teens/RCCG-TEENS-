@@ -101,16 +101,76 @@ body.auth-locked > footer{display:none!important}
 .auth-gate:before,.auth-gate:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
 .auth-gate:before{width:380px;height:380px;top:-180px;right:-120px}.auth-gate:after{width:260px;height:260px;bottom:-120px;left:-100px}
 .auth-card{position:relative;z-index:2;width:min(470px,94vw);background:#fff;border-radius:14px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.28)}
-.auth-logo{width:110px;height:110px;object-fit:contain;margin:0 auto 14px}.auth-card h1{text-align:center;font-family:"Playfair Display",serif;color:var(--green);font-size:30px}.auth-card .auth-sub{text-align:center;color:var(--muted);font-size:12px;margin-bottom:20px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}.auth-tab{border:1px solid #dde4dd;background:#f7f8f4;padding:10px;border-radius:6px;color:var(--green);font-weight:700;cursor:pointer}.auth-tab.active{background:var(--green);color:#fff}.auth-form{display:grid;gap:12px}.auth-form label{font-size:11px;font-weight:700;color:var(--green)}.auth-form input{width:100%;padding:12px;border:1px solid #dde4dd;border-radius:6px;outline:none}.auth-form input:focus{border-color:var(--gold)}.auth-status{min-height:20px;text-align:center;font-size:11px;font-weight:700;color:#a56800}.auth-note{font-size:9px;color:#7b867f;text-align:center;margin-top:13px}.account-bar{position:sticky;top:0;z-index:900;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,.06)}.account-bar .container{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}.account-summary{display:flex;gap:10px;align-items:center}.account-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#fff;font-weight:700;font-size:11px}.account-summary strong{display:block;color:var(--green);font-size:12px}.account-summary span{display:block;color:var(--muted);font-size:9px}.logout-btn{border:1px solid #d7dfd9;background:white;color:var(--green);padding:7px 11px;border-radius:5px;cursor:pointer;font-size:10px;font-weight:700}.account-only-note{font-size:9px;color:#86918a}
+.auth-logo{width:110px;height:110px;object-fit:contain;margin:0 auto 14px}.auth-card h1{text-align:center;font-family:"Playfair Display",serif;color:var(--green);font-size:30px}.auth-card .auth-sub{text-align:center;color:var(--muted);font-size:12px;margin-bottom:20px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}.auth-tab{border:1px solid #dde4dd;background:#f7f8f4;padding:10px;border-radius:6px;color:var(--green);font-weight:700;cursor:pointer}.auth-tab.active{background:var(--green);color:#fff}.auth-form{display:grid;gap:12px}.auth-form label{font-size:11px;font-weight:700;color:var(--green)}.auth-form input{width:100%;padding:12px;border:1px solid #dde4dd;border-radius:6px;outline:none}.auth-form input:focus{border-color:var(--gold)}.auth-status{min-height:20px;text-align:center;font-size:11px;font-weight:700;color:#a56800}.auth-note{font-size:9px;color:#7b867f;text-align:center;margin-top:13px}.account-bar{position:sticky;top:0;z-index:900;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,.06)}.account-bar .container{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0}.account-summary{display:flex;gap:10px;align-items:center}.account-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#fff;font-weight:700;font-size:11px}.account-summary strong{display:block;color:var(--green);font-size:12px}.account-summary span{display:block;color:var(--muted);font-size:9px}.logout-btn{border:1px solid #d7dfd9;background:white;color:var(--green);padding:7px 11px;border-radius:5px;cursor:pointer;font-size:10px;font-weight:700}.account-badge{display:inline-flex;align-items:center;margin-left:4px;padding:5px 8px;border-radius:999px;background:rgba(212,175,55,.16);color:#8a6d13;border:1px solid rgba(212,175,55,.35);font-size:9px;font-weight:800;letter-spacing:.7px}.account-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}.account-only-note{font-size:9px;color:#86918a}
 
 /* =====================================================
    VERIFICATION CHECK-IN
 ===================================================== */
-.verification-shell{max-width:900px;margin:auto}.progress-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}.progress-step{padding:10px 8px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#c7d4cd;font-size:10px;text-align:center}.progress-step.active{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.45);color:#fff}.progress-step.done{background:rgba(57,181,74,.15);border-color:rgba(57,181,74,.4);color:#dff6e4}.verify-card{background:#fff;color:var(--text);border-radius:10px;padding:28px;box-shadow:var(--shadow);margin-bottom:18px}.verify-card h3{font-family:"Playfair Display",serif;color:var(--green);font-size:25px;margin-bottom:5px}.verify-card .step-note{font-size:11px;color:var(--muted);margin-bottom:16px}.passage-box{background:#f8f6ee;border-left:4px solid var(--gold);padding:18px;margin:14px 0}.passage-box .passage-title{font-weight:700;color:var(--green);font-size:13px}.passage-box .passage-ref{color:var(--gold);font-size:10px;letter-spacing:1px}.passage-text{font-family:Georgia,serif;font-size:15px;line-height:1.9;margin-top:9px;color:#3f4a44}.timer-wrap{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin:20px 0}.timer-number{font-family:"Playfair Display",serif;font-size:42px;color:var(--green);min-width:120px;text-align:right}.progress-track{height:14px;border-radius:20px;background:#e8ede8;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .5s ease}.timer-status{font-size:10px;color:var(--muted);margin-top:7px}.quiz-grid{display:grid;gap:14px}.quiz-question{padding:15px;border:1px solid var(--border);border-radius:7px;background:#fbfcfa}.quiz-question p{font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px}.quiz-option{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:5px;cursor:pointer;font-size:11px}.quiz-option:hover{background:#f2f6f2}.quiz-actions{margin-top:15px}.score-box{margin-top:15px;padding:13px;border-radius:6px;background:#f0f7f1;color:var(--green);font-size:12px;font-weight:700}.prayer-prompts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px 0}.prayer-prompt{padding:12px;border:1px solid var(--border);border-radius:7px;background:#fbfcfa;color:#46544c;font-size:11px}.reflection-box textarea{width:100%;min-height:120px;resize:vertical;padding:12px;border:1px solid #dfe4df;border-radius:6px;outline:none;font-size:12px}.reflection-box textarea:focus{border-color:var(--gold)}.final-status{text-align:center;padding:18px;border-radius:8px;background:linear-gradient(135deg,#edf7ef,#fffaf0);border:1px solid #e1e9e2;margin-top:15px}.final-status strong{display:block;color:var(--green);font-family:"Playfair Display",serif;font-size:25px}.final-status span{font-size:10px;color:var(--muted)}.feed-panel{max-width:900px;margin:18px auto 0;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:9px;padding:22px;color:#fff}.feed-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.feed-head h3{font-family:"Playfair Display",serif;font-size:20px}.feed-status{font-size:9px;color:#cbd7d0}.feed-row{display:grid;grid-template-columns:1.2fr .8fr 1.2fr 1fr;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:10px}.feed-row:last-child{border-bottom:0}.feed-row strong{color:var(--gold-light)}.feed-row span{color:#cad7cf}.login-time{white-space:nowrap}.verify-hidden{display:none!important}.timer-paused{color:#a56d00;font-weight:700}.timer-ready{color:var(--green);font-weight:700}.security-note{font-size:9px;color:#7c8781;text-align:center;margin-top:10px;line-height:1.5}.done-today-btn{margin-top:16px;font-weight:800;letter-spacing:.6px}.done-today-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.done-note{margin-top:10px;font-size:11px;color:var(--green);font-weight:700}
-@media(max-width:720px){.progress-strip{grid-template-columns:1fr 1fr}.timer-wrap{grid-template-columns:1fr}.timer-number{text-align:left}.prayer-prompts{grid-template-columns:1fr}.feed-row{grid-template-columns:1fr 1fr}.account-bar .container{padding:8px 0}.auth-card{padding:23px}.hero{min-height:92vh}}
+.verification-shell{max-width:900px;margin:auto}.progress-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}.progress-step{padding:10px 8px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#c7d4cd;font-size:10px;text-align:center}.progress-step.active{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.45);color:#fff}.progress-step.done{background:rgba(57,181,74,.15);border-color:rgba(57,181,74,.4);color:#dff6e4}.verify-card{background:#fff;color:var(--text);border-radius:10px;padding:28px;box-shadow:var(--shadow);margin-bottom:18px}.verify-card h3{font-family:"Playfair Display",serif;color:var(--green);font-size:25px;margin-bottom:5px}.verify-card .step-note{font-size:11px;color:var(--muted);margin-bottom:16px}.passage-box{background:#f8f6ee;border-left:4px solid var(--gold);padding:18px;margin:14px 0}.passage-box .passage-title{font-weight:700;color:var(--green);font-size:13px}.passage-box .passage-ref{color:var(--gold);font-size:10px;letter-spacing:1px}.passage-text{font-family:Georgia,serif;font-size:15px;line-height:1.9;margin-top:9px;color:#3f4a44}.timer-wrap{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin:20px 0}.timer-number{font-family:"Playfair Display",serif;font-size:42px;color:var(--green);min-width:120px;text-align:right}.progress-track{height:14px;border-radius:20px;background:#e8ede8;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .5s ease}.timer-status{font-size:10px;color:var(--muted);margin-top:7px}.quiz-grid{display:grid;gap:14px}.quiz-question{padding:15px;border:1px solid var(--border);border-radius:7px;background:#fbfcfa}.quiz-question p{font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px}.quiz-option{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:5px;cursor:pointer;font-size:11px}.quiz-option:hover{background:#f2f6f2}.quiz-actions{margin-top:15px}.score-box{margin-top:15px;padding:13px;border-radius:6px;background:#f0f7f1;color:var(--green);font-size:12px;font-weight:700}.activity-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.activity-pair .verify-card{margin-bottom:0}.activity-pair .timer-wrap{margin-top:18px}.activity-pair + .done-wrap{margin-top:18px}.done-wrap{text-align:center}.done-wrap .security-note{max-width:700px;margin:10px auto 0}@media(max-width:900px){.activity-pair{grid-template-columns:1fr}}.reflection-box textarea{width:100%;min-height:120px;resize:vertical;padding:12px;border:1px solid #dfe4df;border-radius:6px;outline:none;font-size:12px}.reflection-box textarea:focus{border-color:var(--gold)}.final-status{text-align:center;padding:18px;border-radius:8px;background:linear-gradient(135deg,#edf7ef,#fffaf0);border:1px solid #e1e9e2;margin-top:15px}.final-status strong{display:block;color:var(--green);font-family:"Playfair Display",serif;font-size:25px}.final-status span{font-size:10px;color:var(--muted)}.feed-panel{max-width:900px;margin:18px auto 0;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:9px;padding:22px;color:#fff}.feed-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.feed-head h3{font-family:"Playfair Display",serif;font-size:20px}.feed-status{font-size:9px;color:#cbd7d0}.feed-row{display:grid;grid-template-columns:1.2fr .8fr 1.2fr 1fr;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:10px}.feed-row:last-child{border-bottom:0}.feed-row strong{color:var(--gold-light)}.feed-row span{color:#cad7cf}.login-time{white-space:nowrap}.verify-hidden{display:none!important}.timer-paused{color:#a56d00;font-weight:700}.timer-ready{color:var(--green);font-weight:700}.security-note{font-size:9px;color:#7c8781;text-align:center;margin-top:10px;line-height:1.5}.done-today-btn{margin-top:16px;font-weight:800;letter-spacing:.6px}.done-today-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.done-note{margin-top:10px;font-size:11px;color:var(--green);font-weight:700}
+@media(max-width:720px){.nav-account-actions{margin-left:4px}.nav-profile-name{display:none}.nav-logout-link{font-size:9px;padding:6px 9px}.progress-strip{grid-template-columns:1fr 1fr}.timer-wrap{grid-template-columns:1fr}.timer-number{text-align:left}.feed-row{grid-template-columns:1fr 1fr}.account-bar .container{padding:8px 0}.auth-card{padding:23px}.hero{min-height:92vh}}
 
 
 .card-topline{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}.timer-actions{display:flex;gap:10px;flex-wrap:wrap}.btn-danger{background:#a94a3a;color:#fff}.btn-danger:hover{background:#8f392b;transform:translateY(-2px)}.btn-outline-dark{background:#fff;color:var(--green);border:1px solid #cad4cd}.btn-outline-dark:hover{border-color:var(--gold);transform:translateY(-2px)}.score-box.error{background:#fff4f0;color:#9a432f}.final-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}.final-stats>div{background:#f5f8f4;border:1px solid #e2e7e2;padding:11px;border-radius:6px;font-size:10px;color:#59665e}.final-stats strong{color:var(--green)}.feed-panel,.history-panel{max-width:900px;margin:18px auto 0;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:9px;padding:22px;color:#fff}.history-panel{background:#fff;color:var(--text);border:1px solid var(--border)}.history-panel .feed-head h3,.history-panel .feed-head p{color:var(--green)}.feed-head p{font-size:9px;color:#c8d4cd;margin-top:2px}.feed-row{display:grid;grid-template-columns:1.1fr .9fr 1.2fr 1.2fr;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:10px}.feed-row.reset-event{background:rgba(212,175,55,.08);padding-left:8px;padding-right:8px;border-radius:5px}.feed-row strong{color:var(--gold-light)}.feed-row span{color:#cad7cf}.history-row{display:grid;grid-template-columns:.8fr .7fr 1.3fr 1.3fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:10px}.history-row:last-child,.feed-row:last-child{border-bottom:0}.history-row strong{color:var(--green)}.history-row span{color:var(--muted)}@media(max-width:720px){.timer-actions{flex-direction:column}.timer-actions .btn{width:100%}.final-stats{grid-template-columns:1fr}.feed-row,.history-row{grid-template-columns:1fr 1fr}.feed-row span:last-child,.history-row span:last-child{font-size:9px}.feed-head{flex-direction:column;align-items:flex-start;gap:4px}}
+.admin-badge{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;background:#d7b63d;color:#173524;font-size:8px;font-weight:800;letter-spacing:.8px}
+
+/* =====================================================
+   4.8 ADVANCED VISUAL REDESIGN
+===================================================== */
+:root{
+  --green:#0d5b45;
+  --green-2:#0a7a5b;
+  --dark:#06251b;
+  --deep:#02150f;
+  --gold:#e2bf55;
+  --gold-light:#f4dda0;
+  --cream:#f4f8f4;
+  --paper:#ffffff;
+  --text:#18372c;
+  --muted:#6a7d74;
+  --border:#dfe9e3;
+  --shadow:0 18px 55px rgba(4,39,28,.12);
+  --shadow-lg:0 28px 80px rgba(2,28,19,.18);
+}
+body{background:linear-gradient(180deg,#f7faf8 0,#f1f6f3 48%,#eef5f1 100%);color:var(--text)}
+.navbar{backdrop-filter:blur(14px);background:rgba(249,252,250,.88);border-bottom:1px solid rgba(223,233,227,.8);box-shadow:0 10px 35px rgba(5,41,30,.07)}
+.nav-wrap{min-height:82px}.brand{gap:13px}.brand-logo{width:58px;height:58px;box-shadow:0 8px 22px rgba(4,45,31,.13)}
+.brand-text strong{font-size:18px;letter-spacing:.2px}.brand-text span{font-size:10px}.brand-text small{font-size:8px;letter-spacing:1.8px}
+nav{gap:26px}nav a{font-size:11px;color:#3a584d;padding:8px 0}nav a:after{height:3px;border-radius:99px}
+.hero{min-height:94vh;background:radial-gradient(circle at 50% 18%,rgba(226,191,85,.22),transparent 24%),radial-gradient(circle at 84% 20%,rgba(44,160,117,.19),transparent 20%),linear-gradient(135deg,#041c12 0%,#0b4b37 52%,#042016 100%)}
+.hero:before{background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.055),transparent 18%),radial-gradient(circle at 80% 75%,rgba(255,255,255,.04),transparent 20%);}
+.hero-inner{padding-top:112px}.hero-logo-fixed{width:210px;height:210px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.32));}.hero h1{font-size:clamp(56px,8vw,96px);letter-spacing:1px}.hero h2{font-size:clamp(24px,3.5vw,40px);letter-spacing:4px}.hero-actions .btn{min-width:154px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.btn{border-radius:999px;padding:13px 22px;box-shadow:0 8px 20px rgba(4,45,31,.08)}
+.btn-gold{background:linear-gradient(135deg,#e0b949,#f0d47b)}
+.btn-light{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border-color:rgba(255,255,255,.45)}
+.section{padding:108px 0}.section-heading h2{font-size:clamp(36px,5vw,54px)}.section-heading{margin-bottom:62px}
+.welcome-strip{background:rgba(255,255,255,.78);backdrop-filter:blur(8px)}.four-cards{background:transparent;gap:14px;padding:16px}.four-cards article{border:1px solid var(--border);border-radius:18px;box-shadow:0 10px 30px rgba(8,48,34,.06);padding:30px 20px}
+.about-grid{gap:78px}.about-visual{min-height:520px;border-radius:24px;box-shadow:var(--shadow-lg);background:radial-gradient(circle at 50% 35%,rgba(226,191,85,.24),transparent 26%),linear-gradient(145deg,#082f23,#116146 58%,#06251a)}.about-visual:after{content:"";position:absolute;inset:18px;border:1px solid rgba(255,255,255,.12);border-radius:18px;pointer-events:none}.about-badge{right:26px;bottom:26px;border-radius:16px;padding:16px 20px;background:rgba(5,40,29,.76);backdrop-filter:blur(10px);border:1px solid rgba(226,191,85,.32)}
+.leader-card{border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:14px;box-shadow:0 10px 26px rgba(5,45,31,.05);background:#f8fbf8}
+.verse-section{background:radial-gradient(circle at 50% 20%,rgba(226,191,85,.13),transparent 20%),linear-gradient(135deg,#062d21,#0d6248 55%,#052118);position:relative;overflow:hidden}.verse-section:after{content:"✝";position:absolute;left:-40px;bottom:-90px;font-size:250px;color:rgba(255,255,255,.03)}
+.routine-grid{max-width:980px;gap:26px}.routine-card{border:1px solid var(--border);border-top-width:4px;border-radius:20px;box-shadow:var(--shadow);padding:40px 30px}.routine-card:hover{box-shadow:var(--shadow-lg)}
+.green-section{background:radial-gradient(circle at 10% 20%,rgba(226,191,85,.10),transparent 20%),radial-gradient(circle at 90% 10%,rgba(55,187,137,.12),transparent 18%),linear-gradient(145deg,#041c12,#0a4b37 56%,#062015)}
+.checkin-panel,.verify-card,.history-panel,.chat-shell{border-radius:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.verify-card{padding:30px}.activity-pair{gap:24px}.activity-pair .verify-card{background:linear-gradient(180deg,#fff,#fbfdfb)}
+.activity-pair .verify-card:first-child{border-top:4px solid var(--gold)}.activity-pair .verify-card:last-child{border-top:4px solid var(--green)}
+.done-wrap{text-align:center;margin:24px 0 6px}.done-today-btn{min-height:52px;border-radius:999px;font-size:12px;box-shadow:0 16px 35px rgba(17,91,64,.18)}
+.totalCard{background:linear-gradient(135deg,#ffffff,#f7fbf8)}
+.feed-panel{background:linear-gradient(145deg,rgba(8,53,38,.92),rgba(11,93,68,.87));border:1px solid rgba(255,255,255,.14);border-radius:20px;box-shadow:0 20px 50px rgba(3,36,25,.18)}
+.history-panel{background:rgba(255,255,255,.94);box-shadow:var(--shadow)}
+.feed-row,.history-row{padding:15px 12px;border-radius:12px;margin:6px 0;border-bottom:0;background:rgba(255,255,255,.035)}.history-row{background:#f7faf8;border:1px solid #e7eee9}.feed-row:hover,.history-row:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(5,40,29,.06)}
+.final-status{border-radius:16px;border:1px solid #dce8e0}
+#daniel{background:radial-gradient(circle at 15% 10%,rgba(226,191,85,.08),transparent 20%),linear-gradient(180deg,#f6faf7,#eef5f1)}
+.chat-shell{overflow:hidden;background:#fff}.chat-header{padding:17px 20px;background:linear-gradient(135deg,#072d20,#0f6a4d);color:#fff}.chat-header i{width:10px;height:10px;border-radius:50%;background:#56d39f;box-shadow:0 0 0 5px rgba(86,211,159,.12)}.chat-area{background:linear-gradient(180deg,#f9fcfa,#f1f6f3);padding:22px}.bubble{border-radius:16px;box-shadow:0 10px 25px rgba(5,44,31,.07)}
+.chat-form{padding:14px;background:#fff;border-top:1px solid var(--border)}.chat-form input{border-radius:999px;background:#f5f8f6;border-color:#d9e4dd;padding:13px 16px}.chat-form button{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0d5b45,#0a8060);box-shadow:0 8px 18px rgba(5,66,47,.17)}
+.contact-section{padding:95px 0;background:#061f16;color:#fff}.contact-grid{gap:50px}.contact-item{border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.04);padding:14px 16px}.contact-item p{color:#d9e5df}
+footer{background:#03150f;padding:55px 0 30px}
+.auth-gate{background:radial-gradient(circle at 25% 20%,rgba(226,191,85,.13),transparent 24%),radial-gradient(circle at 78% 80%,rgba(42,171,123,.12),transparent 22%),linear-gradient(145deg,#02150e,#0b513b 58%,#041d14)}
+.auth-card{width:min(500px,94vw);border-radius:26px;padding:34px;box-shadow:0 35px 100px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.28)}.auth-logo{width:120px;height:120px}.auth-card h1{font-size:34px}.auth-tabs{background:#f4f7f4;padding:4px;border-radius:12px}.auth-tab{border:0;border-radius:9px}.auth-tab.active{box-shadow:0 7px 17px rgba(6,73,51,.17)}
+.account-bar{background:rgba(255,255,255,.88);backdrop-filter:blur(14px)}.account-bar .container{padding:10px 0}.account-avatar{width:42px;height:42px;box-shadow:0 8px 17px rgba(5,52,36,.12)}.logout-btn{border-radius:999px;padding:8px 14px}
+.progress-strip{gap:10px}.progress-step{border-radius:999px;padding:10px 12px}.progress-step.active{box-shadow:0 8px 18px rgba(226,191,85,.12)}
+@media(max-width:900px){.activity-pair{grid-template-columns:1fr 1fr}.about-grid{gap:38px}}
+@media(max-width:720px){.nav-wrap{min-height:74px}nav{gap:14px}.hero-logo-fixed{width:165px;height:165px}.section{padding:80px 0}.activity-pair{grid-template-columns:1fr}.four-cards{grid-template-columns:1fr 1fr;padding:10px}.four-cards article{padding:24px 14px}.about-visual{min-height:390px}.auth-card{padding:25px}.feed-row,.history-row{grid-template-columns:1fr}.routine-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.four-cards{grid-template-columns:1fr}.brand-text strong{font-size:15px}.hero h1{font-size:44px}.hero h2{font-size:18px}}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -139,6 +199,8 @@ body.auth-locked > footer{display:none!important}
       <input id="registerPassword" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required>
       <label for="registerPassword2">Confirm Password</label>
       <input id="registerPassword2" type="password" minlength="8" autocomplete="new-password" placeholder="Repeat your password" required>
+      <label for="adminPin">Admin PIN <span style="font-weight:400;color:#7b867f">(optional)</span></label>
+      <input id="adminPin" type="password" autocomplete="off" placeholder="Leave blank for Teen account">
       <button class="btn btn-gold full" type="submit">Create My Account</button>
     </form>
     <div id="authStatus" class="auth-status"></div>
@@ -176,8 +238,27 @@ body.auth-locked > footer{display:none!important}
         <a href="#daniel">Daniel GPT</a>
         <a href="#contact">Contact</a>
       </nav>
+      <div class="nav-account-actions">
+        <span id="navProfileName" class="nav-profile-name verify-hidden">Account</span>
+        <a id="navLogoutLink" class="nav-logout-link verify-hidden" href="/logout">LOG OUT</a>
+      </div>
     </div>
   </header>
+
+  <div id="accountBar" class="account-bar verify-hidden">
+    <div class="container account-bar-inner">
+      <div class="account-summary">
+        <div id="accountAvatar" class="account-avatar">T</div>
+        <div>
+          <strong id="accountName">Teen</strong>
+          <span id="accountMeta">ID: — · Streak: 0</span>
+          <span id="loginMeta" class="login-time">Logged in: —</span>
+        </div>
+        <span id="adminBadge" class="account-badge verify-hidden">ADMIN</span>
+      </div>
+      <button id="logoutBtn" class="logout-btn" type="button">LOG OUT</button>
+    </div>
+  </div>
 
   <main>
     <section id="home" class="hero">
@@ -292,104 +373,74 @@ body.auth-locked > footer{display:none!important}
       <p class="eyebrow">VERIFIED DAILY ACCOUNTABILITY</p>
       <h2>Read. Pray. Reflect. Check In.</h2>
       <div class="heading-line"></div>
-      <p>Your daily goal is <strong>15 active minutes total</strong>, shared between Bible reading and prayer. You can split the 15 minutes however you like, and you can stop and continue later. Leaving or hiding the page pauses the timer.</p>
+      <p>Your daily goal is <strong>30 active minutes total</strong>: 15 minutes Bible reading + 15 minutes prayer. The two timers work independently and can run at the same time. Leaving or hiding the page pauses active timers.</p>
     </div>
 
     <div class="progress-strip" id="progressStrip">
       <div class="progress-step active" id="stepReading">1. Read + Pray</div>
-      <div class="progress-step" id="stepQuiz">2. Bible Quiz</div>
-      <div class="progress-step" id="stepPrayer">3. Reflection</div>
-      <div class="progress-step" id="stepFinal">4. Check-In</div>
+      <div class="progress-step" id="stepFinal">2. Done for Today</div>
     </div>
 
     <div id="totalCard" class="verify-card reveal">
-      <div class="card-topline"><span>Today’s 15-minute goal</span><span id="totalDate"></span></div>
-      <h3>Reading + Prayer = 15 Minutes Total</h3>
-      <p class="step-note">Choose any combination, or do only one activity. For example, 5 minutes reading + 10 minutes prayer = 15 minutes. You can click DONE FOR TODAY at any point to save what you actually completed.</p>
-      <div class="timer-wrap">
-        <div>
-          <div class="progress-track"><div class="progress-fill" id="totalFill"></div></div>
-          <div class="timer-status" id="totalStatus">0:00 completed today.</div>
+      <div class="card-topline"><span>Today’s 30-minute journey</span><span id="totalDate"></span></div>
+      <h3>Reading + Prayer · 30 Minutes Total</h3>
+      <p class="step-note">Reading and prayer each have their own independent 15-minute countdown. They can run at the same time. The button below is the only submission action.</p>
+      <div class="final-stats" id="activitySplit"><div><strong>Bible:</strong> 00:00 / 15:00</div><div><strong>Prayer:</strong> 00:00 / 15:00</div></div>
+      <div class="timer-status" id="totalStatus" style="margin-top:10px">Nothing is submitted until you click DONE FOR TODAY.</div>
+    </div>
+
+    <div class="activity-pair">
+      <div id="prayerCard" class="verify-card reveal">
+        <div class="card-topline"><span>Prayer Time</span><span id="prayerDate"></span></div>
+        <h3>Prayer Time</h3>
+        <p class="step-note">Prayer has its own 15-minute active-time goal. You may pause and continue later.</p>
+        <div class="timer-wrap">
+          <div>
+            <div class="progress-track"><div class="progress-fill" id="prayerFill"></div></div>
+            <div class="timer-status" id="prayerStatus">Press Start Prayer to begin.</div>
+          </div>
+          <div class="timer-number" id="prayerTimer">00:00</div>
         </div>
-        <div class="timer-number" id="totalTimer">15:00</div>
+        <div class="timer-actions">
+          <button id="startPrayerBtn" class="btn btn-gold" type="button">Start Prayer</button>
+          <button id="stopPrayerBtn" class="btn btn-danger" type="button" disabled>Pause Timer</button>
+        </div>
       </div>
-      <div class="final-stats" id="activitySplit"><div><strong>Bible:</strong> 00:00</div><div><strong>Prayer:</strong> 00:00</div></div>
+
+      <div id="readingCard" class="verify-card reveal">
+        <div class="card-topline"><span>Today’s passage</span><span id="passageDate">Loading…</span></div>
+        <h3 id="passageTitle">Bible Reading</h3>
+        <div class="passage-box">
+          <div class="passage-title" id="passageName">Bible Passage</div>
+          <div class="passage-ref" id="passageRef"></div>
+          <div class="passage-text" id="passageText"></div>
+        </div>
+        <div class="timer-wrap">
+          <div>
+            <div class="progress-track"><div class="progress-fill" id="readingFill"></div></div>
+            <div class="timer-status" id="readingStatus">Read for up to 15 active minutes. Pause anytime; continue later until you reach 15:00.</div>
+          </div>
+          <div class="timer-number" id="readingTimer">00:00</div>
+        </div>
+        <div class="timer-actions">
+          <button id="startReadingBtn" class="btn btn-gold" type="button">Start Reading</button>
+          <button id="stopReadingBtn" class="btn btn-danger" type="button" disabled>Pause Timer</button>
+        </div>
+        <p class="security-note">Your reading and prayer times are tracked separately. Nothing is submitted to the shared activity until you press DONE FOR TODAY.</p>
+      </div>
+    </div>
+    <div class="done-wrap">
       <button id="doneTodayBtn" class="btn btn-gold full done-today-btn" type="button">DONE FOR TODAY</button>
-      <p class="security-note">When you are finished for the day, click DONE FOR TODAY. The website saves the actual reading and prayer minutes you completed. You do not have to do both.</p>
+      <p class="security-note">This is the only button that submits your daily check-in. Pause only stops a timer; it does not save the check-in.</p>
     </div>
-
-    <div id="readingCard" class="verify-card reveal">
-      <div class="card-topline"><span>Today’s passage</span><span id="passageDate">Loading…</span></div>
-      <h3 id="passageTitle">Bible Reading</h3>
-      <div class="passage-box">
-        <div class="passage-title" id="passageName">Bible Passage</div>
-        <div class="passage-ref" id="passageRef"></div>
-        <div class="passage-text" id="passageText"></div>
-      </div>
-      <div class="timer-wrap">
-        <div>
-          <div class="progress-track"><div class="progress-fill" id="readingFill"></div></div>
-          <div class="timer-status" id="readingStatus">Reading can use any part of the 15-minute total.</div>
-        </div>
-        <div class="timer-number" id="readingTimer">00:00</div>
-      </div>
-      <div class="timer-actions">
-        <button id="startReadingBtn" class="btn btn-gold" type="button">Start Reading</button>
-        <button id="stopReadingBtn" class="btn btn-danger" type="button" disabled>Stop &amp; Save My Time</button>
-      </div>
-      <button id="resetTodayBtn" class="btn btn-outline-dark full" type="button">Clear Today's Record &amp; Start Fresh</button>
-      <p class="security-note">Your actual active reading time is saved. Stop anytime and later continue with reading or prayer until the combined total reaches 15 minutes.</p>
-    </div>
-
-    <div id="quizCard" class="verify-card verify-hidden">
-      <h3>Bible Knowledge Verification</h3>
-      <p class="step-note">Answer from today’s assigned passage. You need at least 3 correct answers out of 4.</p>
-      <div id="quizGrid" class="quiz-grid"></div>
-      <button id="submitQuizBtn" class="btn btn-gold full" type="button">Submit Bible Verification</button>
-      <div id="quizResult"></div>
-    </div>
-
-    <div id="prayerCard" class="verify-card verify-hidden">
-      <h3>Prayer Time</h3>
-      <p class="step-note">Prayer uses the same 15-minute daily total as Bible reading. Use as much of the remaining time as you choose.</p>
-      <div class="prayer-prompts">
-        <div class="prayer-prompt"><strong>🙏 Thank God</strong><br>Thank Him for His love, life, family and mercy.</div>
-        <div class="prayer-prompt"><strong>🕊️ Confess your sins</strong><br>Ask God for forgiveness and a clean heart.</div>
-        <div class="prayer-prompt"><strong>🙋 Pray for yourself</strong><br>Ask for wisdom, strength, discipline and purpose.</div>
-        <div class="prayer-prompt"><strong>👨‍👩‍👧 Pray for your family</strong><br>Ask God to protect and bless your home.</div>
-        <div class="prayer-prompt"><strong>❤️ Pray for others</strong><br>Remember friends, leaders, teachers and people in need.</div>
-        <div class="prayer-prompt"><strong>⛪ Pray for the outreach</strong><br>Ask God to use City of Praise Teens to bless many lives.</div>
-      </div>
-      <div class="timer-wrap">
-        <div>
-          <div class="progress-track"><div class="progress-fill" id="prayerFill"></div></div>
-          <div class="timer-status" id="prayerStatus">Press Start Prayer to begin.</div>
-        </div>
-        <div class="timer-number" id="prayerTimer">00:00</div>
-      </div>
-      <div class="timer-actions">
-        <button id="startPrayerBtn" class="btn btn-gold" type="button">Start Prayer</button>
-        <button id="stopPrayerBtn" class="btn btn-danger" type="button" disabled>Stop &amp; Save My Time</button>
-      </div>
-    </div>
-
-    <div id="reflectionCard" class="verify-card verify-hidden reflection-box">
-      <h3>Personal Reflection</h3>
-      <p class="step-note">What is one thing you learned or what stood out to you from today’s Bible reading?</p>
-      <textarea id="reflectionText" maxlength="600" placeholder="Write a short reflection…"></textarea>
-      <button id="submitReflectionBtn" class="btn btn-gold full" type="button">Submit Reflection</button>
-      <div id="reflectionResult"></div>
-    </div>
-
     <div id="finalCard" class="verify-card verify-hidden">
       <div class="final-status">
         <strong id="finalTitle">Daily Check-In Completed ✓</strong>
         <span id="completionSummary">Your participation has been saved.</span>
       </div>
       <div class="final-stats" id="finalStats"></div>
-      <button id="refreshFeedBtn" class="btn btn-gold full" type="button">Refresh Teen Activity</button>
-      <button id="resetAfterPartialBtn" class="btn btn-outline-dark full" type="button">Clear Today's Partial Record &amp; Start Again</button>
-    </div>
+      <button id="refreshFeedBtn" class="btn btn-gold full" type="button">Refresh Today’s Activity</button>
+          </div>
 
     <div class="feed-panel reveal">
       <div class="feed-head">
@@ -399,7 +450,7 @@ body.auth-locked > footer{display:none!important}
         </div>
         <span class="feed-status" id="feedStatus">Updating automatically.</span>
       </div>
-      <div id="checkinFeed"><div class="feed-row"><span>Loading…</span></div></div>
+      <div id="checkinFeed"><div class="feed-row"><span>No check-ins for today yet.</span></div></div>
     </div>
 
     <div class="history-panel reveal">
@@ -410,7 +461,12 @@ body.auth-locked > footer{display:none!important}
         </div>
         <span class="feed-status">Private to your account</span>
       </div>
-      <div id="myHistory"><div class="history-row"><span>Loading…</span></div></div>
+      <div id="myHistory"><div class="history-row"><span>No records yet.</span></div></div>
+    </div>
+
+    <div id="adminPanel" class="history-panel verify-hidden reveal">
+      <div class="feed-head"><div><h3>Admin — Teens Check-In History</h3><p>All saved daily check-ins, kept by date and name.</p></div><span class="feed-status">Admin only</span></div>
+      <div id="adminHistory"><div class="history-row"><span>No teen check-ins yet.</span></div></div>
     </div>
   </div>
 </section>
@@ -500,61 +556,141 @@ body.auth-locked > footer{display:none!important}
 
 <script>
 const API='/api';
-const REQUIRED=900;
-const state={user:null,passage:null,readingSession:null,prayerSession:null,quiz:null,ticker:null,heartbeat:null,poll:null,chatHistory:[]};
+const ACTIVITY_REQUIRED=900;
+const TOTAL_REQUIRED=1800;
+const state={user:null,passage:null,readingSession:null,prayerSession:null,quiz:null,tickers:{reading:null,prayer:null},heartbeats:{reading:null,prayer:null},poll:null,awayTimer:null,chatHistory:[],lastAwayKey:'cop-away'};
 const $=id=>document.getElementById(id);
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-async function api(path,options={}){const r=await fetch(API+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},credentials:'include'});let d={};try{d=await r.json()}catch{};if(!r.ok)throw new Error(d.error||'Something went wrong.');return d;}
+async function api(path,options={}){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),10000);try{const r=await fetch(API+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},credentials:'include',signal:controller.signal});let d={};try{d=await r.json()}catch{};if(!r.ok)throw new Error(d.error||'Something went wrong.');return d;}catch(e){if(e.name==='AbortError')throw new Error('Request timed out. Please check your connection.');throw e;}finally{clearTimeout(timeout);}}
 function fmt(sec){sec=Math.max(0,Math.floor(sec||0));const m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
 function dt(v){return v?new Date(v).toLocaleString('en-NG',{dateStyle:'medium',timeStyle:'short'}):'—';}
 function status(t,good=false){const el=$('authStatus');if(el){el.textContent=t||'';el.style.color=good?'#15543b':'#a56800';}}
-function setStep(n){const ids=['stepReading','stepQuiz','stepPrayer','stepFinal'];ids.forEach((id,i)=>{const e=$(id);if(!e)return;e.classList.remove('active','done');if(i<n)e.classList.add('done');if(i===n)e.classList.add('active');});}
-function stopTicker(){if(state.ticker){clearInterval(state.ticker);state.ticker=null;}}
-function stopHeartbeat(){if(state.heartbeat){clearInterval(state.heartbeat);state.heartbeat=null;}}
-function activeNow(){return document.visibilityState==='visible'&&document.hasFocus();}
+function setStep(n){const ids=['stepReading','stepFinal'];ids.forEach((id,i)=>{const e=$(id);if(!e)return;e.classList.remove('active','done');if(i<n)e.classList.add('done');if(i===n)e.classList.add('active');});}
+function stopTicker(kind){if(kind){if(state.tickers[kind]){clearInterval(state.tickers[kind]);state.tickers[kind]=null;}return;}Object.keys(state.tickers).forEach(k=>stopTicker(k));}
+function stopHeartbeat(kind){if(kind){if(state.heartbeats[kind]){clearInterval(state.heartbeats[kind]);state.heartbeats[kind]=null;}return;}Object.keys(state.heartbeats).forEach(k=>stopHeartbeat(k));}
+function activeNow(){return document.visibilityState==='visible';}
 
 // Auth tabs
 function authTab(which){$('loginForm').classList.toggle('verify-hidden',which!=='login');$('registerForm').classList.toggle('verify-hidden',which!=='register');$('loginTab').classList.toggle('active',which==='login');$('registerTab').classList.toggle('active',which==='register');status('');$('newAccountBox').classList.add('verify-hidden');}
 $('loginTab')?.addEventListener('click',()=>authTab('login'));$('registerTab')?.addEventListener('click',()=>authTab('register'));
-$('registerForm')?.addEventListener('submit',async e=>{e.preventDefault();const name=$('registerName').value.trim(),p1=$('registerPassword').value,p2=$('registerPassword2').value;if(name.length<2)return status('Please enter your name.');if(p1!==p2)return status('Passwords do not match.');if(p1.length<8)return status('Password must be at least 8 characters.');try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({name,password:p1})});$('newAccountBox').classList.remove('verify-hidden');$('newAccountBox').innerHTML=`<strong>Account created ✓</strong><span>Your Teen ID is <b>${esc(d.user.id)}</b>. Save this ID. You can use it with your password to log in next time.</span>`;$('registerForm').reset();status('Account created and logged in.',true);await boot(d.user);}catch(err){status(err.message);}});
+$('registerForm')?.addEventListener('submit',async e=>{e.preventDefault();const name=$('registerName').value.trim(),p1=$('registerPassword').value,p2=$('registerPassword2').value;const adminPin=$('adminPin')?.value.trim()||'';if(name.length<2)return status('Please enter your name.');if(p1!==p2)return status('Passwords do not match.');if(p1.length<8)return status('Password must be at least 8 characters.');try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({name,password:p1,adminPin})});$('newAccountBox').classList.remove('verify-hidden');$('newAccountBox').innerHTML=`<strong>Account created ✓</strong><span>Your Teen ID is <b>${esc(d.user.id)}</b>. Save this ID. You can use it with your password to log in next time.</span>`;$('registerForm').reset();status('Account created and logged in.',true);await boot(d.user);}catch(err){status(err.message);}});
 $('loginForm')?.addEventListener('submit',async e=>{e.preventDefault();try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({id:$('loginId').value.trim(),password:$('loginPassword').value})});await boot(d.user);}catch(err){status(err.message);}});
 $('logoutBtn')?.addEventListener('click',async()=>{try{await api('/auth/logout',{method:'POST'});}catch{}location.reload();});
-function account(u){$('accountName').textContent=u.name;$('accountMeta').textContent=`ID: ${u.id} · Streak: ${u.streak||0}`;$('accountAvatar').textContent=(u.name||'T').trim().charAt(0).toUpperCase();$('loginMeta').textContent=`Logged in: ${dt(u.loginAt)}`;}
-async function boot(u){state.user=u;document.body.classList.remove('auth-locked');$('authGate').classList.add('verify-hidden');$('accountBar').classList.remove('verify-hidden');account(u);await loadPassage();await restore();await refreshFeed();await refreshHistory();startPolling();}
+function account(u){$('accountName').textContent=u.name;$('accountMeta').textContent=`ID: ${u.id} · Streak: ${u.streak||0}`;$('accountAvatar').textContent=(u.name||'T').trim().charAt(0).toUpperCase();$('adminBadge').classList.toggle('verify-hidden',!u.isAdmin);$('adminPanel').classList.toggle('verify-hidden',!u.isAdmin);$('loginMeta').textContent=`Logged in: ${dt(u.loginAt)}`;const pn=$('navProfileName'),nl=$('navLogoutLink');if(pn){pn.textContent=(u.isAdmin?'ADMIN · ':'')+u.name;pn.classList.remove('verify-hidden')}if(nl)nl.classList.remove('verify-hidden');}
+async function boot(u){state.user=u;document.body.classList.remove('auth-locked');$('authGate').classList.add('verify-hidden');$('accountBar').classList.remove('verify-hidden');$('accountBar').style.display='block';account(u);
+  // Never block the shared Today feed on passage/progress/history requests.
+  $('checkinFeed').innerHTML='<div class="feed-row"><span>Checking today’s activity…</span></div>';
+  const feedPromise=refreshFeed();
+  const jobs=[loadPassage(),handleAwayResetOnBoot(),restore(),refreshHistory()];
+  if(u.isAdmin)jobs.push(refreshAdminHistory());
+  await Promise.allSettled([feedPromise,...jobs]);
+  // One more feed refresh after boot so the latest records are shown immediately.
+  await refreshFeed();
+  startPolling();
+}
 async function init(){try{const d=await api('/auth/me');if(d.authenticated){await boot(d.user);return;}}catch{}}
 
 // Visuals
-window.addEventListener('load',()=>setTimeout(()=>$('loader')?.classList.add('hide'),250));setTimeout(()=>$('loader')?.classList.add('hide'),1600);
+window.addEventListener('load',()=>setTimeout(()=>$('loader')?.classList.add('hide'),250));setTimeout(()=>$('loader')?.classList.add('hide'),1600);document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>$('loader')?.classList.add('hide'),900));
 $('menuBtn')?.addEventListener('click',()=>$('navMenu')?.classList.toggle('open'));$('navMenu')?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>$('navMenu').classList.remove('open')));
 window.addEventListener('scroll',()=>document.getElementById('navbar')?.classList.toggle('scrolled',scrollY>30));
 const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>ro.observe(e));$('year').textContent=new Date().getFullYear();
 
 // Progress / daily passage
-async function loadPassage(){try{const d=await api('/daily/passage');state.passage=d.passage;$('passageName').textContent=d.passage.title;$('passageRef').textContent=d.passage.reference;$('passageText').textContent=d.passage.text;$('passageDate').textContent=d.passage.date;$('totalDate').textContent=d.passage.date;}catch(e){$('passageDate').textContent=e.message;}}
-function currentTotals(){const r=state.readingSession?.activeSeconds||0,p=state.prayerSession?.activeSeconds||0;return {readingSeconds:r,prayerSeconds:p,totalSeconds:Math.min(REQUIRED,r+p)};}
-function renderTotals(t=currentTotals()){$('totalTimer').textContent=fmt(REQUIRED-t.totalSeconds);$('totalFill').style.width=`${Math.min(100,t.totalSeconds/REQUIRED*100)}%`;$('activitySplit').innerHTML=`<div><strong>Bible:</strong> ${fmt(t.readingSeconds)}</div><div><strong>Prayer:</strong> ${fmt(t.prayerSeconds)}</div>`;$('totalStatus').textContent=t.totalSeconds>=REQUIRED?'15 minutes completed. Bible verification is ready.':`${fmt(t.totalSeconds)} completed. ${fmt(REQUIRED-t.totalSeconds)} remaining.`;}
-async function restore(){try{const d=await api('/progress');if(d.completed){showCompleted(d.record);return;}if(d.reading){state.readingSession=d.reading;}if(d.prayer){state.prayerSession=d.prayer;}renderRead(state.readingSession||null,d);renderPrayer(state.prayerSession||null,d);renderTotals(d);if(d.quiz){state.quiz=d.quiz;showQuiz(d.quiz.questions);}else if(d.totalReached){await maybeOpenQuiz();}if(d.reflection){$('reflectionText').value=d.reflection.text||'';$('reflectionCard').classList.remove('verify-hidden');setStep(2);}}catch(e){console.log(e)}}
-function renderRead(s,t=currentTotals()){const sec=s?.activeSeconds||0;$('readingCard').classList.remove('verify-hidden');$('readingTimer').textContent=fmt(sec);$('readingFill').style.width=`${Math.min(100,sec/REQUIRED*100)}%`;if(t.totalSeconds>=REQUIRED){$('readingStatus').textContent='Daily 15-minute total reached. You can open Bible verification.';$('readingStatus').className='timer-status timer-ready';$('startReadingBtn').disabled=true;$('stopReadingBtn').disabled=true;stopTicker();return;}if(s?.status==='stopped'){$('readingStatus').textContent=`Reading saved: ${fmt(sec)}. You can continue later.`;$('readingStatus').className='timer-status';$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Continue Reading';$('stopReadingBtn').disabled=true;return;}if(s){$('readingStatus').textContent=activeNow()?'Reading timer active.':'Paused because the page is hidden or unfocused.';$('startReadingBtn').disabled=true;$('stopReadingBtn').disabled=false;}else{$('readingStatus').textContent='Start reading and use any part of the 15-minute total.';$('startReadingBtn').textContent='Start Reading';$('startReadingBtn').disabled=false;$('stopReadingBtn').disabled=true;}}
-function renderPrayer(s,t=currentTotals()){const sec=s?.activeSeconds||0;$('prayerCard').classList.remove('verify-hidden');$('prayerTimer').textContent=fmt(sec);$('prayerFill').style.width=`${Math.min(100,sec/REQUIRED*100)}%`;if(t.totalSeconds>=REQUIRED){$('prayerStatus').textContent='Daily 15-minute total reached. Bible verification is ready.';$('prayerStatus').className='timer-status timer-ready';$('startPrayerBtn').disabled=true;$('stopPrayerBtn').disabled=true;return;}if(s?.status==='stopped'){$('prayerStatus').textContent=`Prayer saved: ${fmt(sec)}. You can continue later.`;$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Continue Prayer';$('stopPrayerBtn').disabled=true;return;}if(s){$('prayerStatus').textContent=activeNow()?'Prayer timer active.':'Paused because the page is hidden or unfocused.';$('startPrayerBtn').disabled=true;$('stopPrayerBtn').disabled=false;}else{$('prayerStatus').textContent='Start prayer and use any part of the 15-minute total.';$('startPrayerBtn').textContent='Start Prayer';$('startPrayerBtn').disabled=false;$('stopPrayerBtn').disabled=true;}}
-function startTicker(kind){stopTicker();const key=kind==='reading'?'readingSession':'prayerSession';state.ticker=setInterval(()=>{const s=state[key];if(!s||s.status!=='active'||!activeNow())return;s._display=(s._display??s.activeSeconds??0)+1;if(kind==='reading'){$('readingTimer').textContent=fmt(s._display);$('readingFill').style.width=`${Math.min(100,s._display/REQUIRED*100)}%`;}else{$('prayerTimer').textContent=fmt(s._display);$('prayerFill').style.width=`${Math.min(100,s._display/REQUIRED*100)}%`;}const other=kind==='reading'?(state.prayerSession?.activeSeconds||0):(state.readingSession?.activeSeconds||0);const t={readingSeconds:kind==='reading'?s._display:(state.readingSession?.activeSeconds||0),prayerSeconds:kind==='prayer'?s._display:(state.prayerSession?.activeSeconds||0),totalSeconds:0};t.totalSeconds=Math.min(REQUIRED,t.readingSeconds+t.prayerSeconds);renderTotals(t);if(t.totalSeconds>=REQUIRED){stopTicker();$('readingStatus').textContent='15-minute total reached.';$('prayerStatus').textContent='15-minute total reached.';}},1000);}
-async function heartbeat(kind,id){try{const d=await api(`/${kind}/heartbeat`,{method:'POST',body:JSON.stringify({sessionId:id,active:activeNow()})});if(kind==='reading'){state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;}else{state.prayerSession=d.session;state.prayerSession._display=d.session.activeSeconds;}renderTotals(d);renderRead(state.readingSession||null,d);renderPrayer(state.prayerSession||null,d);if(d.totalReached){stopTicker();await maybeOpenQuiz();}else if(d.session.status==='active'&&activeNow())startTicker(kind);}catch(e){console.log(e);}}
-async function maybeOpenQuiz(){if(state.quiz||!state.readingSession)return;try{const d=await api('/reading/quiz',{method:'POST',body:JSON.stringify({sessionId:state.readingSession.id})});state.quiz=d;showQuiz(d.questions);}catch(e){console.log(e)}}
-function startHeartbeat(kind,id){stopHeartbeat();state.heartbeat=setInterval(()=>heartbeat(kind,id),2000);heartbeat(kind,id);}
-function startPolling(){if(state.poll)clearInterval(state.poll);state.poll=setInterval(()=>{refreshFeed();refreshHistory();},10000);}
-document.addEventListener('visibilitychange',()=>{if(state.readingSession?.id)heartbeat('reading',state.readingSession.id);if(state.prayerSession?.id)heartbeat('prayer',state.prayerSession.id);if(!activeNow()){$('readingStatus').textContent='Paused because the page is hidden or unfocused.';$('prayerStatus').textContent='Paused because the page is hidden or unfocused.';stopTicker();}});
-window.addEventListener('blur',()=>{stopTicker();if(state.readingSession?.id)heartbeat('reading',state.readingSession.id);if(state.prayerSession?.id)heartbeat('prayer',state.prayerSession.id);});
+async function loadPassage(){try{const d=await api('/daily/passage');state.passage=d.passage;$('passageName').textContent=d.passage.title;$('passageRef').textContent=d.passage.reference;$('passageText').textContent=d.passage.text;$('passageDate').textContent=d.passage.date;$('totalDate').textContent=d.passage.date;if($('prayerDate'))$('prayerDate').textContent=d.passage.date;}catch(e){$('passageDate').textContent=e.message;}}
+function currentTotals(){const r=state.readingSession?.activeSeconds||0,p=state.prayerSession?.activeSeconds||0;return {readingSeconds:r,prayerSeconds:p,totalSeconds:Math.min(TOTAL_REQUIRED,r+p)};}
+function renderTotals(t=currentTotals()){$('activitySplit').innerHTML=`<div><strong>Bible:</strong> ${fmt(t.readingSeconds)} / 15:00</div><div><strong>Prayer:</strong> ${fmt(t.prayerSeconds)} / 15:00</div>`;$('totalStatus').textContent='Nothing is submitted until you click DONE FOR TODAY.';}
+async function restore(){try{const d=await api('/progress');if(d.completed){showCompleted(d.record);return;}$('doneTodayBtn').disabled=false;$('doneTodayBtn').textContent='DONE FOR TODAY';if(d.reading)state.readingSession=d.reading;if(d.prayer)state.prayerSession=d.prayer;renderRead(state.readingSession||null,d);renderPrayer(state.prayerSession||null,d);renderTotals(d);setStep(0);}catch(e){console.log(e)}}
+function renderRead(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('readingCard').classList.remove('verify-hidden');$('readingTimer').textContent=fmt(sec);$('readingFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('readingStatus').textContent='Bible reading completed — 15 minutes reached ✓';$('readingStatus').className='timer-status timer-ready';$('startReadingBtn').disabled=true;$('stopReadingBtn').disabled=true;return;}if(s?.status==='stopped'){$('readingStatus').textContent=`Reading paused at ${fmt(sec)}. Continue when ready.`;$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Continue Reading';$('stopReadingBtn').disabled=true;return;}if(s?.status==='active'){$('readingStatus').textContent='Reading is running. Start is locked; use Pause Reading to stop the clock.';$('startReadingBtn').disabled=true;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=false;}else{$('readingStatus').textContent='Start reading. Only DONE FOR TODAY saves the check-in.';$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=true;}}
+function renderPrayer(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('prayerCard').classList.remove('verify-hidden');$('prayerTimer').textContent=fmt(sec);$('prayerFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('prayerStatus').textContent='Prayer completed — 15 minutes reached ✓';$('prayerStatus').className='timer-status timer-ready';$('startPrayerBtn').disabled=true;$('stopPrayerBtn').disabled=true;return;}if(s?.status==='stopped'){$('prayerStatus').textContent=`Prayer paused at ${fmt(sec)}. Continue when ready.`;$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Continue Prayer';$('stopPrayerBtn').disabled=true;return;}if(s?.status==='active'){$('prayerStatus').textContent='Prayer is running. Start is locked; use Pause Prayer to stop the clock.';$('startPrayerBtn').disabled=true;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=false;}else{$('prayerStatus').textContent='Start prayer. Only DONE FOR TODAY saves the check-in.';$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=true;}}
+function startTicker(kind){
+  stopTicker(kind);
+  const key=kind==='reading'?'readingSession':'prayerSession';
+  const s=state[key];
+  if(!s||s.status!=='active')return;
+  s._display=Number(s._display??s.activeSeconds??0);
+  s._displayBase=Number(s.activeSeconds??0);
+  s._tickStartedAt=Date.now();
+  const render=()=>{
+    const cur=state[key];
+    if(!cur||cur.status!=='active')return;
+    if(document.visibilityState!=='visible')return;
+    const elapsed=Math.floor((Date.now()-cur._tickStartedAt)/1000);
+    const shown=Math.min(ACTIVITY_REQUIRED,Number(cur._displayBase??cur.activeSeconds??0)+elapsed);
+    cur._display=shown;
+    if(kind==='reading'){
+      $('readingTimer').textContent=fmt(shown);
+      $('readingFill').style.width=`${shown/ACTIVITY_REQUIRED*100}%`;
+      $('readingStatus').textContent=shown>=ACTIVITY_REQUIRED?'Bible reading completed — 15 minutes reached ✓':'Reading timer running. Click Pause Timer to pause the clock.';
+    }else{
+      $('prayerTimer').textContent=fmt(shown);
+      $('prayerFill').style.width=`${shown/ACTIVITY_REQUIRED*100}%`;
+      $('prayerStatus').textContent=shown>=ACTIVITY_REQUIRED?'Prayer completed — 15 minutes reached ✓':'Prayer timer running. Click Pause Timer to pause the clock.';
+    }
+    renderTotals({
+      readingSeconds:kind==='reading'?shown:Number(state.readingSession?._display??state.readingSession?.activeSeconds??0),
+      prayerSeconds:kind==='prayer'?shown:Number(state.prayerSession?._display??state.prayerSession?.activeSeconds??0),
+      totalSeconds:Math.min(TOTAL_REQUIRED,(kind==='reading'?shown:Number(state.readingSession?.activeSeconds||0))+(kind==='prayer'?shown:Number(state.prayerSession?.activeSeconds||0)))
+    });
+    if(shown>=ACTIVITY_REQUIRED){
+      cur._display=ACTIVITY_REQUIRED;
+      stopTicker(kind);
+      stopHeartbeat(kind);
+      cur.status='stopped';
+      if(kind==='reading')renderRead(cur);else renderPrayer(cur);
+    }
+  };
+  render();
+  state.tickers[kind]=setInterval(render,250);
+}
+
+async function heartbeat(kind,id){
+  try{
+    const d=await api(`/${kind}/heartbeat`,{method:'POST',body:JSON.stringify({sessionId:id,active:activeNow()})});
+    const key=kind==='reading'?'readingSession':'prayerSession';
+    const current=state[key];
+    if(!current||current.id!==id)return;
+    if(d.session.status!=='active'){
+      state[key]=d.session;
+      state[key]._display=d.session.activeSeconds;
+      stopTicker(kind);
+      stopHeartbeat(kind);
+      renderRead(state.readingSession||null,d);
+      renderPrayer(state.prayerSession||null,d);
+    }else{
+      // Keep the smooth local timer running; server heartbeats are for persistence, not UI resets.
+      const localDisplay=Number(current._display??current.activeSeconds??0);
+      state[key].activeSeconds=Math.max(Number(d.session.activeSeconds||0),localDisplay);
+      if(localDisplay<Number(d.session.activeSeconds||0)){
+        state[key]._display=Number(d.session.activeSeconds||0);
+        state[key]._displayBase=Number(d.session.activeSeconds||0);
+        state[key]._tickStartedAt=Date.now();
+      }
+    }
+    renderTotals({readingSeconds:kind==='reading'?Number(state.readingSession?._display??state.readingSession?.activeSeconds??0):Number(state.readingSession?.activeSeconds||0),prayerSeconds:kind==='prayer'?Number(state.prayerSession?._display??state.prayerSession?.activeSeconds??0):Number(state.prayerSession?.activeSeconds||0),totalSeconds:d.totalSeconds});
+  }catch(e){console.log(e);}
+}
+
+async function maybeOpenQuiz(){return;}
+function startHeartbeat(kind,id){stopHeartbeat(kind);state.heartbeats[kind]=setInterval(()=>heartbeat(kind,id),2000);heartbeat(kind,id);}
+function startPolling(){if(state.poll)clearInterval(state.poll);state.poll=setInterval(()=>{refreshFeed();refreshHistory();if(state.user?.isAdmin)refreshAdminHistory();},2500);}
+function awayKey(kind,sessionId){return `${state.user?.id||'anon'}:${kind}:${sessionId}`;}
+async function markAway(){const now=Date.now();for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const s=state[key];if(s?.id&&s.status==='active')localStorage.setItem(`${state.lastAwayKey}:${awayKey(kind,s.id)}`,String(now));}}
+async function handleAwayResetOnReturn(){for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const s=state[key];if(!s?.id)continue;const k=`${state.lastAwayKey}:${awayKey(kind,s.id)}`;const t=Number(localStorage.getItem(k)||0);if(t&&Date.now()-t>=AWAY_RESET_MS){try{const d=await api('/activity/reset-after-away',{method:'POST',body:JSON.stringify({sessionId:s.id})});if(kind==='reading')state.readingSession=d.session;else state.prayerSession=d.session;localStorage.removeItem(k);}catch{} } else if(t){localStorage.removeItem(k);}}}
+const AWAY_RESET_MS=300000;
+async function handleAwayResetOnBoot(){await handleAwayResetOnReturn();}
+
+document.addEventListener('visibilitychange',()=>{if(state.readingSession?.id)heartbeat('reading',state.readingSession.id);if(state.prayerSession?.id)heartbeat('prayer',state.prayerSession.id);if(!activeNow()){markAway();stopTicker();if(state.readingSession?.status==='active')$('readingStatus').textContent='Paused because the page is hidden. Return to continue.';if(state.prayerSession?.status==='active')$('prayerStatus').textContent='Paused because the page is hidden. Return to continue.';}else{handleAwayResetOnReturn().then(()=>{if(state.readingSession?.status==='active')startTicker('reading');if(state.prayerSession?.status==='active')startTicker('prayer');restore();});}});
+window.addEventListener('beforeunload',()=>{markAway();});
 
 // Reading
-$('startReadingBtn')?.addEventListener('click',async()=>{try{const t=currentTotals();if(t.totalSeconds>=REQUIRED){await maybeOpenQuiz();return;}const d=await api('/reading/start',{method:'POST'});state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;renderRead(d.session,t);renderTotals({...t,readingSeconds:d.session.activeSeconds,totalSeconds:Math.min(REQUIRED,d.session.activeSeconds+(state.prayerSession?.activeSeconds||0))});startTicker('reading');startHeartbeat('reading',d.session.id);}catch(e){$('readingStatus').textContent=e.message;}});
-$('stopReadingBtn')?.addEventListener('click',async()=>{if(!state.readingSession?.id)return;stopTicker();stopHeartbeat();try{const d=await api('/reading/stop',{method:'POST',body:JSON.stringify({sessionId:state.readingSession.id})});state.readingSession=d.session;renderRead(d.session);const x=await api('/checkin/partial',{method:'POST'});showPartialState(x.record);await refreshFeed();await refreshHistory();}catch(e){$('readingStatus').textContent=e.message;}});
-function showQuiz(qs){$('readingCard').classList.add('verify-hidden');$('prayerCard').classList.add('verify-hidden');$('quizCard').classList.remove('verify-hidden');$('quizGrid').innerHTML=qs.map((q,i)=>`<div class="quiz-question"><p>${i+1}. ${esc(q.question)}</p>${q.options.map((o,j)=>`<label class="quiz-option"><input type="radio" name="${esc(q.id)}" value="${j}"><span>${esc(o)}</span></label>`).join('')}</div>`).join('');setStep(1);}
-$('submitQuizBtn')?.addEventListener('click',async()=>{const answers={};state.quiz?.questions?.forEach(q=>{const c=document.querySelector(`input[name="${CSS.escape(q.id)}"]:checked`);if(c)answers[q.id]=Number(c.value)});try{const d=await api('/reading/quiz',{method:'POST',body:JSON.stringify({sessionId:state.readingSession.id,answers})});$('quizResult').innerHTML=`<div class="score-box">Score ${d.score}/${d.total}. Bible verification passed ✓</div>`;state.readingSession.status='done';$('quizCard').classList.add('verify-hidden');$('prayerCard').classList.add('verify-hidden');$('readingCard').classList.add('verify-hidden');$('reflectionCard').classList.remove('verify-hidden');setStep(2);}catch(e){$('quizResult').innerHTML=`<div class="score-box error">${esc(e.message)}</div>`;}});
+$('startReadingBtn')?.addEventListener('click',async()=>{try{const t=currentTotals();const current=state.readingSession;if(current?.status==='active')return;if((current?.activeSeconds||0)>=900){await maybeOpenQuiz();return;}const endpoint=current?.status==='stopped'?'/reading/start':'/reading/start';const d=await api(endpoint,{method:'POST'});state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;state.readingSession._displayBase=d.session.activeSeconds;renderRead(d.session,t);renderTotals({...t,readingSeconds:d.session.activeSeconds,totalSeconds:Math.min(TOTAL_REQUIRED,d.session.activeSeconds+(state.prayerSession?.activeSeconds||0))});startTicker('reading');startHeartbeat('reading',d.session.id);}catch(e){$('readingStatus').textContent=e.message;}});
+$('stopReadingBtn')?.addEventListener('click',async()=>{if(!state.readingSession?.id)return;stopTicker('reading');stopHeartbeat('reading');try{const d=await api('/reading/stop',{method:'POST',body:JSON.stringify({sessionId:state.readingSession.id})});state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;renderRead(d.session);renderTotals();}catch(e){$('readingStatus').textContent=e.message;}});
 
 // Prayer
-$('startPrayerBtn')?.addEventListener('click',async()=>{try{const t=currentTotals();if(t.totalSeconds>=REQUIRED){await maybeOpenQuiz();return;}const d=await api('/prayer/start',{method:'POST'});state.prayerSession=d.session;state.prayerSession._display=d.session.activeSeconds;renderPrayer(d.session,t);renderTotals({...t,prayerSeconds:d.session.activeSeconds,totalSeconds:Math.min(REQUIRED,(state.readingSession?.activeSeconds||0)+d.session.activeSeconds)});startTicker('prayer');startHeartbeat('prayer',d.session.id);setStep(0);}catch(e){$('prayerStatus').textContent=e.message;}});
-$('stopPrayerBtn')?.addEventListener('click',async()=>{if(!state.prayerSession?.id)return;stopTicker();stopHeartbeat();try{const d=await api('/prayer/stop',{method:'POST',body:JSON.stringify({sessionId:state.prayerSession.id})});state.prayerSession=d.session;renderPrayer(d.session);const x=await api('/checkin/partial',{method:'POST'});showPartialState(x.record);await refreshFeed();await refreshHistory();}catch(e){$('prayerStatus').textContent=e.message;}});
+$('startPrayerBtn')?.addEventListener('click',async()=>{try{const t=currentTotals();const current=state.prayerSession;if(current?.status==='active')return;if((current?.activeSeconds||0)>=900)return;const endpoint=current?.status==='stopped'?'/prayer/start':'/prayer/start';const d=await api(endpoint,{method:'POST'});state.prayerSession=d.session;state.prayerSession._display=d.session.activeSeconds;state.prayerSession._displayBase=d.session.activeSeconds;renderPrayer(d.session,t);renderTotals({...t,prayerSeconds:d.session.activeSeconds,totalSeconds:Math.min(TOTAL_REQUIRED,(state.readingSession?.activeSeconds||0)+d.session.activeSeconds)});startTicker('prayer');startHeartbeat('prayer',d.session.id);setStep(0);}catch(e){$('prayerStatus').textContent=e.message;}});
+$('stopPrayerBtn')?.addEventListener('click',async()=>{if(!state.prayerSession?.id)return;stopTicker('prayer');stopHeartbeat('prayer');try{const d=await api('/prayer/stop',{method:'POST',body:JSON.stringify({sessionId:state.prayerSession.id})});state.prayerSession=d.session;state.prayerSession._display=d.session.activeSeconds;renderPrayer(d.session);renderTotals();}catch(e){$('prayerStatus').textContent=e.message;}});
 
-function showPartialState(r){$('finalCard').classList.add('verify-hidden');$('quizCard').classList.add('verify-hidden');$('reflectionCard').classList.add('verify-hidden');$('readingCard').classList.remove('verify-hidden');$('prayerCard').classList.remove('verify-hidden');$('finalTitle').textContent='';const t={readingSeconds:r.readingSeconds||0,prayerSeconds:r.prayerSeconds||0,totalSeconds:Math.min(REQUIRED,(r.readingSeconds||0)+(r.prayerSeconds||0))};renderTotals(t);renderRead(state.readingSession||null,t);renderPrayer(state.prayerSession||null,t);setStep(0);}
 
 // Done for today — saves the actual active time completed so far, with no requirement to do both activities.
 $('doneTodayBtn')?.addEventListener('click',async()=>{
@@ -573,16 +709,14 @@ $('doneTodayBtn')?.addEventListener('click',async()=>{
 });
 
 // Reflection + complete
-$('submitReflectionBtn')?.addEventListener('click',async()=>{const text=$('reflectionText').value.trim();if(text.length<10){$('reflectionResult').textContent='Please write a little more about what stood out to you.';return;}try{await api('/reflection',{method:'POST',body:JSON.stringify({reflection:text})});$('reflectionResult').innerHTML='<div class="score-box">Reflection submitted ✓</div>';const d=await api('/checkin/full',{method:'POST'});showCompleted(d.record,false);await refreshFeed();await refreshHistory();}catch(e){$('reflectionResult').innerHTML=`<div class="score-box error">${esc(e.message)}</div>`;}});
 
-// Reset daily
-async function resetToday(){try{await api('/daily/reset',{method:'POST'});stopTicker();stopHeartbeat();state.readingSession=null;state.prayerSession=null;state.quiz=null;$('quizCard').classList.add('verify-hidden');$('prayerCard').classList.remove('verify-hidden');$('reflectionCard').classList.add('verify-hidden');$('finalCard').classList.add('verify-hidden');$('readingCard').classList.remove('verify-hidden');renderTotals({readingSeconds:0,prayerSeconds:0,totalSeconds:0});renderRead(null,{readingSeconds:0,prayerSeconds:0,totalSeconds:0});renderPrayer(null,{readingSeconds:0,prayerSeconds:0,totalSeconds:0});setStep(0);await refreshFeed();await refreshHistory();}catch(e){alert(e.message);}}
-$('resetTodayBtn')?.addEventListener('click',resetToday);$('resetAfterPartialBtn')?.addEventListener('click',resetToday);$('refreshFeedBtn')?.addEventListener('click',()=>{refreshFeed();refreshHistory();});
-function showCompleted(r,partial=false){stopTicker();stopHeartbeat();$('readingCard').classList.add('verify-hidden');$('quizCard').classList.add('verify-hidden');$('prayerCard').classList.add('verify-hidden');$('reflectionCard').classList.add('verify-hidden');$('finalCard').classList.remove('verify-hidden');$('finalTitle').textContent=partial||r.completionType!=='full'?'Done for Today — Record Saved ✓':'Daily Check-In Completed ✓';$('completionSummary').textContent=`${r.name} · ${r.publicId} · ${r.completionType==='full'?'completed':'saved'} ${dt(r.completedAt)} · streak ${r.streak||0}`;$('finalStats').innerHTML=`<div><strong>Bible:</strong> ${fmt(r.readingSeconds)}</div><div><strong>Prayer:</strong> ${fmt(r.prayerSeconds)}</div><div><strong>Total:</strong> ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} / 15:00</div><div><strong>Quiz:</strong> ${r.quizScore==null?'Not taken':`${r.quizScore}/4`}</div><div><strong>Login:</strong> ${dt(r.loginAt)}</div>`;setStep(3);}
+function showCompleted(r){stopTicker();stopHeartbeat();['readingCard','prayerCard','quizCard','reflectionCard'].forEach(id=>$(id)?.classList.add('verify-hidden'));$('finalCard').classList.remove('verify-hidden');$('finalTitle').textContent='Done for Today — Record Saved ✓';$('completionSummary').textContent=`${r.name} · ${r.publicId} · saved ${dt(r.completedAt)} · streak ${r.streak||0}`;$('finalStats').innerHTML=`<div><strong>Bible:</strong> ${fmt(r.readingSeconds)}</div><div><strong>Prayer:</strong> ${fmt(r.prayerSeconds)}</div><div><strong>Total:</strong> ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} / 30:00</div><div><strong>Login:</strong> ${dt(r.loginAt)}</div>`;$('doneTodayBtn').disabled=true;$('doneTodayBtn').textContent='CHECK-IN SAVED FOR TODAY';setStep(1);}
 
 // Feed/history
-async function refreshFeed(){try{const d=await api('/checkins');if(!d.events.length){$('checkinFeed').innerHTML='<div class="feed-row"><span>No activity yet today.</span></div>';return;}$('checkinFeed').innerHTML=d.events.map(e=>e.eventType==='reset'?`<div class="feed-row reset-event"><strong>${esc(e.name)}</strong><span>${esc(e.publicId)}</span><span>Cleared today’s record</span><span>${dt(e.timestamp)}<br>${fmt(e.readingSeconds)} read · ${fmt(e.prayerSeconds)} prayed</span></div>`:`<div class="feed-row"><strong>${esc(e.name)}</strong><span>${esc(e.publicId)}</span><span>${e.completionType==='full'?'Completed':'In progress'} · ${fmt(e.readingSeconds)} read · ${fmt(e.prayerSeconds)} prayed · ${fmt((e.readingSeconds||0)+(e.prayerSeconds||0))} total</span><span>Login ${dt(e.loginAt)}<br>Updated ${dt(e.timestamp)}</span></div>`).join('');}catch(e){$('feedStatus').textContent=e.message;}}
-async function refreshHistory(){try{const d=await api('/history');$('myHistory').innerHTML=d.records.length?d.records.map(r=>`<div class="history-row"><strong>${esc(r.date)}</strong><span>${r.completionType==='full'?'Full':'Partial'}</span><span>${fmt(r.readingSeconds)} read · ${fmt(r.prayerSeconds)} prayed · ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} total</span><span>${dt(r.completedAt)}</span></div>`).join(''):'<div class="history-row"><span>No records yet.</span></div>';}catch(e){}}
+async function refreshFeed(){try{const d=await api('/checkins');$('feedStatus').textContent='Updated just now.';if(!d.events.length){$('checkinFeed').innerHTML='<div class="feed-row"><span>No check-ins for today yet.</span></div>';return;}$('checkinFeed').innerHTML=d.events.map(e=>e.eventType==='reset'?`<div class="feed-row reset-event"><strong>${esc(e.name)}</strong><span>${esc(e.publicId)}</span><span>Cleared today’s record</span><span>${dt(e.timestamp)}<br>${fmt(e.readingSeconds)} read · ${fmt(e.prayerSeconds)} prayed</span></div>`:`<div class="feed-row"><strong>${esc(e.name)}</strong><span>${esc(e.publicId)}</span><span>${e.completionType==='full'?'Completed':'In progress'} · ${fmt(e.readingSeconds)} read · ${fmt(e.prayerSeconds)} prayed · ${fmt((e.readingSeconds||0)+(e.prayerSeconds||0))} total</span><span>Login ${dt(e.loginAt)}<br>Updated ${dt(e.timestamp)}</span></div>`).join('');}catch(e){$('feedStatus').textContent='Could not load today activity.';$('checkinFeed').innerHTML='<div class="feed-row"><span>Unable to load today activity right now.</span></div>';}}
+async function refreshHistory(){try{const d=await api('/history');$('myHistory').innerHTML=d.records.length?d.records.map(r=>`<div class="history-row"><strong>${esc(r.date)}</strong><span>${r.completionType==='full'?'Full':'Partial'}</span><span>${fmt(r.readingSeconds)} read · ${fmt(r.prayerSeconds)} prayed · ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} total</span><span>${dt(r.completedAt)}</span></div>`).join(''):'<div class="history-row"><span>No records yet.</span></div>';}catch(e){$('myHistory').innerHTML='<div class="history-row"><span>Unable to load your history right now.</span></div>';}}
+
+async function refreshAdminHistory(){if(!state.user?.isAdmin)return;try{const d=await api('/admin/history');const wrap=$('adminHistory');if(!d.dates.length){wrap.innerHTML='<div class="history-row"><span>No teen check-ins yet.</span></div>';return;}wrap.innerHTML=d.dates.map(day=>`<div style="margin:14px 0 6px;font-weight:800;color:var(--gold)">${esc(day.date)}</div>`+day.records.map(r=>`<div class="history-row"><strong>${esc(r.name)}</strong><span>${esc(r.publicId)}</span><span>${fmt(r.readingSeconds)} read · ${fmt(r.prayerSeconds)} prayed · ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} total</span><span>${r.completionType==='full'?'Full':'Partial'} · ${dt(r.completedAt)}</span></div>`).join('')).join('');}catch(e){$('adminHistory').innerHTML='<div class="history-row"><span>'+esc(e.message)+'</span></div>';}}
 
 // Daniel GPT
 const chatForm=$('chatForm'),chatInput=$('chatInput'),chatArea=$('chatArea'),chatButton=chatForm?.querySelector('button');
