@@ -122,6 +122,8 @@ app.post('/api/checkin/full',auth,async(req,res)=>{try{const date=localDate();co
 app.get('/api/admin/history',auth,async(req,res)=>{try{if(!req.user.is_admin)return res.status(403).json({error:'Admin access only.'});const r=await supabase.from('daily_records').select('*').order('date',{ascending:false}).order('name',{ascending:true});if(r.error)throw r.error;const grouped={};for(const x of (r.data||[])){if(!grouped[x.date])grouped[x.date]=[];grouped[x.date].push(recordOut(x));}res.json({dates:Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).map(date=>({date,records:grouped[date].sort((a,b)=>a.name.localeCompare(b.name))}))});}catch(e){res.status(500).json({error:e.message});}});
 app.get('/api/admin/summary',auth,async(req,res)=>{try{if(!req.user.is_admin)return res.status(403).json({error:'Admin access only.'});const today=localDate();const users=await supabase.from('users').select('id,public_id,name,is_admin,created_at').order('name',{ascending:true});if(users.error)throw users.error;const todayRecs=await supabase.from('daily_records').select('user_id,public_id,name,active_reading_seconds,active_prayer_seconds,completion_type,completed_at').eq('date',today).order('name',{ascending:true});if(todayRecs.error)throw todayRecs.error;res.json({today,users:users.data||[],todayRecords:todayRecs.data||[]});}catch(e){res.status(500).json({error:e.message});}});
 
+app.post('/api/activity/pause',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({last_heartbeat_at:now}).eq('id',id).eq('user_id',req.user.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
+app.post('/api/activity/resume',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({status:'active',last_heartbeat_at:now,stopped_at:null,stop_reason:null}).eq('id',id).eq('user_id',req.user.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/activity/reset-after-away',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({active_seconds:0,last_heartbeat_at:now,stopped_at:null,stop_reason:'reset-after-away',status:'stopped'}).eq('id',id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data),message:'More than 5 minutes away. This timer has restarted from 00:00.'});}catch(e){res.status(500).json({error:e.message});}});
 
 app.post('/api/daily/reset',auth,async(req,res)=>{try{const date=localDate();const active=await latestRecord(req.user.id,date);const reading=(await supabase.from('activity_sessions').select('active_seconds').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('active_seconds').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;if(active){await supabase.from('daily_records').update({state:'cleared',cleared_at:new Date().toISOString()}).eq('id',active.id);}await supabase.from('reset_events').insert({user_id:req.user.id,public_id:req.user.public_id,name:req.user.name,date,cleared_at:new Date().toISOString(),reading_seconds:reading?.active_seconds||0,prayer_seconds:prayer?.active_seconds||0,completion_type:active?.completion_type||'none'});await supabase.from('activity_sessions').delete().eq('user_id',req.user.id).eq('date',date);await supabase.from('reflections').delete().eq('user_id',req.user.id).eq('date',date);res.json({ok:true});}catch(e){res.status(500).json({error:e.message});}});
@@ -187,6 +189,153 @@ Try these questions: What does this passage show about God? What should it chang
 
 You can also give me a Bible verse, chapter or specific topic, and I’ll help you study it. For example: “Explain Romans 12:2” or “How can I deal with fear?”`;
 }
+
+
+
+// Bible reader (API.Bible). The secret key stays server-side in BIBLE_API_KEY.
+const BIBLE_API_KEY=process.env.BIBLE_API_KEY||'';
+const FREE_BIBLE_API_BASE='https://bible.helloao.org/api';
+async function freeBibleFetch(pathname){
+  const r=await fetch(`${FREE_BIBLE_API_BASE}${pathname}`,{headers:{'Accept':'application/json'}});
+  const text=await r.text(); let d={}; try{d=JSON.parse(text);}catch{}
+  if(!r.ok) throw Object.assign(new Error(d?.error||`Free Bible service returned ${r.status}.`),{status:r.status});
+  return d;
+}
+const freeBibleCache=new Map();
+async function freeBibleCached(key,pathname){
+  const hit=freeBibleCache.get(key); if(hit&&Date.now()-hit.time<10*60*1000)return hit.data;
+  const data=await freeBibleFetch(pathname); freeBibleCache.set(key,{time:Date.now(),data}); return data;
+}
+function escHtmlServer(v){return String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');}
+const BIBLE_API_BASE='https://rest.api.bible/v1';
+const bibleCache=new Map();
+const BIBLE_CACHE_MS=10*60*1000;
+async function bibleFetch(pathname){
+  if(!BIBLE_API_KEY) throw Object.assign(new Error('Bible service is not configured yet. Add BIBLE_API_KEY to your environment variables.'),{status:503});
+  const r=await fetch(`${BIBLE_API_BASE}${pathname}`,{headers:{'api-key':BIBLE_API_KEY,'Accept':'application/json'}});
+  let d={}; try{d=await r.json();}catch{}
+  if(!r.ok) throw Object.assign(new Error(d?.message||d?.error||`Bible service returned ${r.status}.`),{status:r.status});
+  return d;
+}
+async function bibleCached(key,pathname){
+  const hit=bibleCache.get(key);
+  if(hit&&Date.now()-hit.time<BIBLE_CACHE_MS)return hit.data;
+  const data=await bibleFetch(pathname);
+  bibleCache.set(key,{time:Date.now(),data});
+  return data;
+}
+app.get('/api/bible/versions',auth,async(req,res)=>{
+  try{
+    const free=await freeBibleCached('free-versions','/available_translations.json');
+    const freeBibles=(free.translations||[]).filter(x=>x.language==='eng'||x.languageEnglishName==='English').map(x=>({id:'free:'+x.id,name:x.englishName||x.name,abbreviation:x.shortName||x.id,description:'Free-use Bible translation',copyright:'Free Use Bible API — '+(x.licenseUrl||'')}));
+    let licensed=[];
+    if(BIBLE_API_KEY){try{const d=await bibleCached('versions','/bibles?language=eng');licensed=(d.data||[]).map(b=>({id:b.id,name:b.name,abbreviation:b.abbreviation,description:b.description||'',copyright:b.copyright||''}));}catch{} }
+    const priority=['King James Version','Good News Translation','Berean Standard Bible','World English Bible','American Standard Version']; freeBibles.sort((a,b)=>{const ia=priority.findIndex(x=>a.name.toLowerCase().includes(x.toLowerCase())),ib=priority.findIndex(x=>b.name.toLowerCase().includes(x.toLowerCase()));return (ia<0?999:ia)-(ib<0?999:ib)||a.name.localeCompare(b.name);}); const seen=new Set(); const bibles=[...licensed,...freeBibles].filter(b=>!seen.has(b.name)&&(seen.add(b.name),true));
+    res.json({bibles});
+  }catch(e){res.status(e.status||500).json({error:e.message});}
+});
+app.get('/api/bible/books',auth,async(req,res)=>{
+  try{
+    const bibleId=String(req.query?.bibleId||'').trim(); if(!bibleId)return res.status(400).json({error:'Bible version is required.'});
+    if(bibleId.startsWith('free:')){
+      const id=bibleId.slice(5); const d=await freeBibleCached(`books:${id}`,`/${encodeURIComponent(id)}/books.json`);
+      const books=(d.books||[]).map(b=>({id:b.id,name:b.name||b.commonName,commonName:b.commonName,chapters:Array.from({length:Number(b.numberOfChapters||0)},(_,i)=>({id:`${b.id}.${i+1}`,number:String(i+1)}))}));
+      return res.json({books});
+    }
+    if(!BIBLE_API_KEY)return res.status(503).json({error:'That Bible version needs an authorized API.Bible key. Please choose a free version or add BIBLE_API_KEY.'});
+    const d=await bibleCached(`books:${bibleId}`,`/bibles/${encodeURIComponent(bibleId)}/books?include-chapters=true`); res.json({books:d.data||[]});
+  }catch(e){res.status(e.status||500).json({error:e.message});}
+});
+app.get('/api/bible/chapter',auth,async(req,res)=>{
+  try{
+    const bibleId=String(req.query?.bibleId||'').trim(), chapterId=String(req.query?.chapterId||'').trim();
+    if(!bibleId||!chapterId)return res.status(400).json({error:'Bible version and chapter are required.'});
+    if(bibleId.startsWith('free:')){
+      const id=bibleId.slice(5), m=chapterId.match(/^([A-Za-z0-9]+)\.(\d+)$/); if(!m)return res.status(400).json({error:'Invalid chapter.'});
+      const d=await freeBibleCached(`chapter:${id}:${m[1]}:${m[2]}`,`/${encodeURIComponent(id)}/${encodeURIComponent(m[1])}/${m[2]}.simple.json`);
+      const verses=(d.chapter?.content||[]).filter(x=>x.type==='verse');
+      const html=verses.map(v=>`<p><span class="bible-verse-number">${escHtmlServer(v.number)}</span> ${escHtmlServer(v.text||'')}</p>`).join('');
+      // Hello AO supplies the adjacent chapter links. Convert those links into our
+      // internal chapter IDs so the Next/Previous buttons work for free translations too.
+      const toInternal=(link)=>{
+        if(!link)return null;
+        const mm=String(link).match(/\/api\/[^/]+\/([^/]+)\/(\d+)\.json/);
+        return mm?{id:`${mm[1]}.${mm[2]}`}:null;
+      };
+      return res.json({chapter:{id:chapterId,number:m[2],bookId:m[1],content:html,next:toInternal(d.nextChapterApiLink),previous:toInternal(d.previousChapterApiLink)},copyright:'Free Use Bible API — no copyright restrictions',versionName:d.translation?.englishName||d.translation?.name||id,abbreviation:d.translation?.shortName||id,fumsJsInclude:'',fumsJs:''});
+    }
+    if(!BIBLE_API_KEY)return res.status(503).json({error:'That Bible version needs an authorized API.Bible key.'});
+    const [chapter,bible]=await Promise.all([bibleFetch(`/bibles/${encodeURIComponent(bibleId)}/chapters/${encodeURIComponent(chapterId)}?content-type=html&include-titles=true&include-chapter-numbers=true&include-verse-numbers=true&include-verse-spans=true`),bibleCached(`bible:${bibleId}`,`/bibles/${encodeURIComponent(bibleId)}`)]);
+    res.json({chapter:{id:chapter.data?.id,number:chapter.data?.number,bookId:chapter.data?.bookId,content:chapter.data?.content||'',next:chapter.data?.next||null,previous:chapter.data?.previous||null},copyright:bible.data?.copyright||'',versionName:bible.data?.name||'',abbreviation:bible.data?.abbreviation||'',fumsJsInclude:chapter.meta?.fumsJsInclude||'',fumsJs:chapter.meta?.fumsJs||''});
+  }catch(e){res.status(e.status||500).json({error:e.message});}
+});
+
+const freeBibleSearchCache=new Map();
+const freeBibleSearchLoading=new Map();
+const FREE_BIBLE_SEARCH_CACHE_MS=30*60*1000;
+function normalizeBibleSearchText(value){
+  return String(value||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'\"').replace(/[^\p{L}\p{N}\s']/gu,' ').replace(/\s+/g,' ').trim();
+}
+async function getFreeBibleSearchData(translationId){
+  const hit=freeBibleSearchCache.get(translationId);
+  if(hit && Date.now()-hit.time<FREE_BIBLE_SEARCH_CACHE_MS) return hit.data;
+  if(freeBibleSearchLoading.has(translationId)) return freeBibleSearchLoading.get(translationId);
+  const promise=(async()=>{
+    const data=await freeBibleCached(`complete-simple:${translationId}`,`/${encodeURIComponent(translationId)}/complete.simple.json`);
+    const verses=[];
+    for(const book of (data.books||[])){
+      for(const chapter of (book.chapters||[])){
+        const chapterData=chapter.chapter||chapter;
+        for(const item of (chapterData.content||[])){
+          if(item.type!=='verse') continue;
+          verses.push({
+            id:`${book.id}.${chapterData.number||chapter.number}.${item.number}`,
+            bookId:book.id,
+            bookName:book.commonName||book.name||book.id,
+            chapterNumber:Number(chapterData.number||chapter.number),
+            verseNumber:String(item.number),
+            reference:`${book.commonName||book.name||book.id} ${chapterData.number||chapter.number}:${item.number}`,
+            text:String(item.text||'')
+          });
+        }
+      }
+    }
+    freeBibleSearchCache.set(translationId,{time:Date.now(),data:verses});
+    return verses;
+  })();
+  freeBibleSearchLoading.set(translationId,promise);
+  try{return await promise;}finally{freeBibleSearchLoading.delete(translationId);}
+}
+app.get('/api/bible/search',auth,async(req,res)=>{
+  try{
+    const bibleId=String(req.query?.bibleId||'').trim();
+    const query=String(req.query?.query||'').trim().slice(0,120);
+    const limit=Math.min(50,Math.max(1,Number(req.query?.limit||20)));
+    if(!bibleId||!query)return res.status(400).json({error:'Bible version and search text are required.'});
+    if(bibleId.startsWith('free:')){
+      const translationId=bibleId.slice(5);
+      const verses=await getFreeBibleSearchData(translationId);
+      const needle=normalizeBibleSearchText(query);
+      const terms=needle.split(' ').filter(Boolean);
+      if(!terms.length)return res.json({query,results:[]});
+      const stem=(word)=>{let w=word.toLowerCase();if(w.length>5&&w.endsWith('ies'))w=w.slice(0,-3)+'y';else if(w.length>5&&w.endsWith('ing'))w=w.slice(0,-3);else if(w.length>4&&w.endsWith('ed'))w=w.slice(0,-2);else if(w.length>4&&w.endsWith('es'))w=w.slice(0,-2);else if(w.length>3&&w.endsWith('s'))w=w.slice(0,-1);if(w.length>3&&w.endsWith('e'))w=w.slice(0,-1);return w;};
+      const stemTerms=terms.map(stem);
+      const scored=verses.map(v=>{
+        const text=normalizeBibleSearchText(v.text);
+        const words=text.split(' ').filter(Boolean);
+        const stems=new Set(words.map(stem));
+        const exactPhrase=text.includes(needle)?100:0;
+        const matched=stemTerms.filter(t=>stems.has(t)).length;
+        const score=exactPhrase+(matched/Math.max(1,stemTerms.length))*100;
+        return {v,score,matched};
+      }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+      const results=scored.slice(0,limit).map(x=>x.v);
+      return res.json({query,results});
+    }
+    const d=await bibleFetch(`/bibles/${encodeURIComponent(bibleId)}/search?query=${encodeURIComponent(query)}&limit=${limit}`);
+    res.json({query,results:(d.data?.verses||d.data?.passages||[]).map(x=>({id:x.id,reference:x.reference||x.orgId||x.id,text:x.text||x.content||''}))});
+  }catch(e){res.status(e.status||500).json({error:e.message});}
+});
 
 app.post('/api/chat',auth,async(req,res)=>{try{const question=String(req.body?.question||'').trim();if(!question)return res.status(400).json({error:'Question required.'});res.json({answer:danielAnswer(question)});}catch(e){console.error(e);res.status(500).json({error:'Daniel GPT is temporarily unavailable.'});}});
 
