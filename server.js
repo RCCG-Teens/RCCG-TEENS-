@@ -80,7 +80,6 @@ app.post('/api/auth/register',async(req,res)=>{
     const isAdmin=Boolean(ADMIN_PIN&&wantsAdmin===ADMIN_PIN);
 
     const hash=await bcrypt.hash(password,12);
-
     const {data:ins,error}=await supabase.from('users').insert({name,password_hash:hash,is_admin:isAdmin}).select('id,name,password_hash,streak,created_at,is_admin').single();
     if(error)return res.status(400).json({error:error.message});
     const year=new Intl.DateTimeFormat('en',{timeZone:'Africa/Lagos',year:'numeric'}).format(new Date());
@@ -105,14 +104,56 @@ app.get('/api/progress',auth,async(req,res)=>{try{const date=localDate();const {
 
 app.post('/api/reading/start',auth,async(req,res)=>{try{const date=localDate();if(await latestRecord(req.user.id,date))return res.status(409).json({error:'You have already checked in today. Please come back tomorrow.'});const s=await ensureSession(req.user.id,'reading',date,todayPassage().id);res.json({session:sessionOut(s)});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/reading/heartbeat',auth,async(req,res)=>{try{const s=await getSession(String(req.body?.sessionId||''));if(!s||s.user_id!==req.user.id||s.kind!=='reading')return res.status(404).json({error:'Reading session not found.'});const u=await updateHeartbeat(s,Boolean(req.body?.active));const totals=await dailyTotals(req.user.id,localDate());res.json({session:sessionOut(u),...totals,totalReached:totals.totalSeconds>=TOTAL_REQUIRED});}catch(e){res.status(500).json({error:e.message});}});
-app.post('/api/reading/stop',auth,async(req,res)=>{try{const s=await getSession(String(req.body?.sessionId||''));if(!s||s.user_id!==req.user.id||s.kind!=='reading')return res.status(404).json({error:'Reading session not found.'});const u=await updateHeartbeat(s,active=false);const x=await supabase.from('activity_sessions').update({status:'stopped',stopped_at:new Date().toISOString(),stop_reason:'user'}).eq('id',s.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
+
+app.post('/api/reading/stop',auth,async(req,res)=>{
+  try{
+    const s=await getSession(String(req.body?.sessionId||''));
+    if(!s||s.user_id!==req.user.id||s.kind!=='reading')
+      return res.status(404).json({error:'Reading session not found.'});
+    const u=await updateHeartbeat(s,true);
+    const requested=Number(req.body?.displaySeconds);
+    const activeSeconds=Number.isFinite(requested)
+      ?Math.min(ACTIVITY_REQUIRED,Math.max(Number(u.active_seconds||0),requested))
+      :Number(u.active_seconds||0);
+    const x=await supabase.from('activity_sessions')
+      .update({
+        active_seconds:activeSeconds,
+        status:'stopped',
+        stopped_at:new Date().toISOString(),
+        stop_reason:'user'
+      }).eq('id',s.id).select().single();
+    if(x.error)throw x.error;
+    res.json({session:sessionOut(x.data)});
+  }catch(e){res.status(500).json({error:e.message});}
+});
 
 app.post('/api/reading/quiz',auth,async(req,res)=>{try{const date=localDate();const session=await getSession(String(req.body?.sessionId||''));if(!session||session.user_id!==req.user.id||session.kind!=='reading')return res.status(404).json({error:'Reading session not found.'});const p=findPassageServer(session.passage_id);const totals=await dailyTotals(req.user.id,date);if(totals.readingSeconds<ACTIVITY_REQUIRED)return res.status(400).json({error:'Complete 15 active minutes of Bible reading first.'});if(!req.body.answers){const qs=[...p.questions].sort(()=>Math.random()-.5).slice(0,4).map((x,i)=>({id:`${p.id}-${crypto.randomUUID()}`,question:x[0],options:x[1],answer:x[2]}));const safe=qs.map(q=>({id:q.id,question:q.question,options:q.options}));await supabase.from('activity_sessions').update({quiz_ids:JSON.stringify(qs)}).eq('id',session.id);return res.json({questions:safe});}const quiz=(session.quiz_ids?JSON.parse(session.quiz_ids):[]);const answers=req.body.answers||{};let score=0;for(const q of quiz)if(Number(answers[q.id])===q.answer)score++;if(score<3)return res.status(400).json({error:`Score ${score}/4. You need at least 3/4. Please review the passage and try again.`});const x=await supabase.from('activity_sessions').update({quiz_score:score,status:'done'}).eq('id',session.id).select().single();if(x.error)throw x.error;res.json({score,total:4});}catch(e){res.status(500).json({error:e.message});}});
 function findPassageServer(id){return PASSAGES.find(p=>p.id===id)||todayPassage();}
 
 app.post('/api/prayer/start',auth,async(req,res)=>{try{const date=localDate();if(await latestRecord(req.user.id,date))return res.status(409).json({error:'You have already checked in today. Please come back tomorrow.'});const s=await ensureSession(req.user.id,'prayer',date,null);const x=await supabase.from('activity_sessions').update({status:'active'}).eq('id',s.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/prayer/heartbeat',auth,async(req,res)=>{try{const s=await getSession(String(req.body?.sessionId||''));if(!s||s.user_id!==req.user.id||s.kind!=='prayer')return res.status(404).json({error:'Prayer session not found.'});const u=await updateHeartbeat(s,Boolean(req.body?.active));const totals=await dailyTotals(req.user.id,localDate());res.json({session:sessionOut(u),...totals,totalReached:totals.totalSeconds>=TOTAL_REQUIRED});}catch(e){res.status(500).json({error:e.message});}});
-app.post('/api/prayer/stop',auth,async(req,res)=>{try{const s=await getSession(String(req.body?.sessionId||''));if(!s||s.user_id!==req.user.id||s.kind!=='prayer')return res.status(404).json({error:'Prayer session not found.'});await updateHeartbeat(s,false);const x=await supabase.from('activity_sessions').update({status:'stopped',stopped_at:new Date().toISOString(),stop_reason:'user'}).eq('id',s.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
+
+app.post('/api/prayer/stop',auth,async(req,res)=>{
+  try{
+    const s=await getSession(String(req.body?.sessionId||''));
+    if(!s||s.user_id!==req.user.id||s.kind!=='prayer')
+      return res.status(404).json({error:'Prayer session not found.'});
+    const u=await updateHeartbeat(s,true);
+    const requested=Number(req.body?.displaySeconds);
+    const activeSeconds=Number.isFinite(requested)
+      ?Math.min(ACTIVITY_REQUIRED,Math.max(Number(u.active_seconds||0),requested))
+      :Number(u.active_seconds||0);
+    const x=await supabase.from('activity_sessions')
+      .update({
+        active_seconds:activeSeconds,
+        status:'stopped',
+        stopped_at:new Date().toISOString(),
+        stop_reason:'user'
+      }).eq('id',s.id).select().single();
+    if(x.error)throw x.error;
+    res.json({session:sessionOut(x.data)});
+  }catch(e){res.status(500).json({error:e.message});}
+});
 
 app.post('/api/reflection',auth,async(req,res)=>{try{const text=String(req.body?.reflection||'').trim();if(text.length<10||text.length>600)return res.status(400).json({error:'Please provide a short reflection of 10–600 characters.'});const date=localDate();const x=await supabase.from('reflections').upsert({user_id:req.user.id,date,text,created_at:new Date().toISOString()},{onConflict:'user_id,date'}).select().single();if(x.error)throw x.error;res.json({reflection:{text:x.data.text}});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/checkin/partial',auth,async(req,res)=>{try{const date=localDate();const reading=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const r=await savePartial(req.user,reading,prayer);res.json({record:recordOut(r)});}catch(e){res.status(500).json({error:e.message});}});
@@ -127,7 +168,6 @@ app.post('/api/activity/resume',auth,async(req,res)=>{try{const id=String(req.bo
 app.post('/api/activity/reset-after-away',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({active_seconds:0,last_heartbeat_at:now,stopped_at:null,stop_reason:'reset-after-away',status:'stopped'}).eq('id',id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data),message:'More than 5 minutes away. This timer has restarted from 00:00.'});}catch(e){res.status(500).json({error:e.message});}});
 
 app.post('/api/daily/reset',auth,async(req,res)=>{try{const date=localDate();const active=await latestRecord(req.user.id,date);const reading=(await supabase.from('activity_sessions').select('active_seconds').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('active_seconds').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;if(active){await supabase.from('daily_records').update({state:'cleared',cleared_at:new Date().toISOString()}).eq('id',active.id);}await supabase.from('reset_events').insert({user_id:req.user.id,public_id:req.user.public_id,name:req.user.name,date,cleared_at:new Date().toISOString(),reading_seconds:reading?.active_seconds||0,prayer_seconds:prayer?.active_seconds||0,completion_type:active?.completion_type||'none'});await supabase.from('activity_sessions').delete().eq('user_id',req.user.id).eq('date',date);await supabase.from('reflections').delete().eq('user_id',req.user.id).eq('date',date);res.json({ok:true});}catch(e){res.status(500).json({error:e.message});}});
-
 app.get('/api/checkins',auth,async(req,res)=>{try{const date=localDate();const r=await supabase.from('daily_records').select('*').eq('date',date).eq('state','active').order('completed_at',{ascending:false});if(r.error)throw r.error;res.json({events:(r.data||[]).map(x=>({eventType:'checkin',name:x.name,publicId:x.public_id,completionType:x.completion_type,readingSeconds:x.active_reading_seconds,prayerSeconds:x.active_prayer_seconds,loginAt:x.login_at,timestamp:x.completed_at}))});}catch(e){res.status(500).json({error:e.message});}});
 app.get('/api/history',auth,async(req,res)=>{try{const r=await supabase.from('daily_records').select('*').eq('user_id',req.user.id).order('date',{ascending:false}).limit(60);if(r.error)throw r.error;res.json({records:(r.data||[]).map(recordOut)});}catch(e){res.status(500).json({error:e.message});}});
 
@@ -191,7 +231,6 @@ You can also give me a Bible verse, chapter or specific topic, and I’ll help y
 }
 
 
-
 // Bible reader (API.Bible). The secret key stays server-side in BIBLE_API_KEY.
 const BIBLE_API_KEY=process.env.BIBLE_API_KEY||'';
 const FREE_BIBLE_API_BASE='https://bible.helloao.org/api';
@@ -224,6 +263,7 @@ async function bibleCached(key,pathname){
   bibleCache.set(key,{time:Date.now(),data});
   return data;
 }
+
 app.get('/api/bible/versions',auth,async(req,res)=>{
   try{
     const free=await freeBibleCached('free-versions','/available_translations.json');
@@ -234,6 +274,7 @@ app.get('/api/bible/versions',auth,async(req,res)=>{
     res.json({bibles});
   }catch(e){res.status(e.status||500).json({error:e.message});}
 });
+
 app.get('/api/bible/books',auth,async(req,res)=>{
   try{
     const bibleId=String(req.query?.bibleId||'').trim(); if(!bibleId)return res.status(400).json({error:'Bible version is required.'});
@@ -246,6 +287,7 @@ app.get('/api/bible/books',auth,async(req,res)=>{
     const d=await bibleCached(`books:${bibleId}`,`/bibles/${encodeURIComponent(bibleId)}/books?include-chapters=true`); res.json({books:d.data||[]});
   }catch(e){res.status(e.status||500).json({error:e.message});}
 });
+
 app.get('/api/bible/chapter',auth,async(req,res)=>{
   try{
     const bibleId=String(req.query?.bibleId||'').trim(), chapterId=String(req.query?.chapterId||'').trim();
@@ -274,7 +316,7 @@ const freeBibleSearchCache=new Map();
 const freeBibleSearchLoading=new Map();
 const FREE_BIBLE_SEARCH_CACHE_MS=30*60*1000;
 function normalizeBibleSearchText(value){
-  return String(value||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'\"').replace(/[^\p{L}\p{N}\s']/gu,' ').replace(/\s+/g,' ').trim();
+  return String(value||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/[^\p{L}\p{N}\s']/gu,' ').replace(/\s+/g,' ').trim();
 }
 async function getFreeBibleSearchData(translationId){
   const hit=freeBibleSearchCache.get(translationId);
@@ -306,6 +348,7 @@ async function getFreeBibleSearchData(translationId){
   freeBibleSearchLoading.set(translationId,promise);
   try{return await promise;}finally{freeBibleSearchLoading.delete(translationId);}
 }
+
 app.get('/api/bible/search',auth,async(req,res)=>{
   try{
     const bibleId=String(req.query?.bibleId||'').trim();
