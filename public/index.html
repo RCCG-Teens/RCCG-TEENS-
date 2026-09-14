@@ -171,6 +171,24 @@ footer{background:#03150f;padding:55px 0 30px}
 @media(max-width:720px){.nav-wrap{min-height:74px}nav{gap:14px}.hero-logo-fixed{width:165px;height:165px}.section{padding:80px 0}.activity-pair{grid-template-columns:1fr}.four-cards{grid-template-columns:1fr 1fr;padding:10px}.four-cards article{padding:24px 14px}.about-visual{min-height:390px}.auth-card{padding:25px}.feed-row,.history-row{grid-template-columns:1fr}.routine-grid{grid-template-columns:1fr}}
 @media(max-width:430px){.four-cards{grid-template-columns:1fr}.brand-text strong{font-size:15px}.hero h1{font-size:44px}.hero h2{font-size:18px}}
 
+
+/* Bible reader */
+.bible-reader{max-width:1000px;margin:0 auto;background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:26px}
+.bible-controls{display:grid;grid-template-columns:1.2fr 1.2fr .8fr auto;gap:10px;align-items:end}
+.bible-controls label{display:grid;gap:5px;font-size:10px;font-weight:800;color:var(--green)}
+.bible-controls select,.bible-controls input{width:100%;padding:11px 12px;border:1px solid #d9e4dd;border-radius:8px;background:#fff;outline:none;font-size:11px}
+.bible-controls select:focus,.bible-controls input:focus{border-color:var(--gold)}
+.bible-status{font-size:10px;color:var(--muted);margin:12px 0;min-height:18px}
+.bible-content{background:#fbfcfa;border:1px solid #e5ece7;border-radius:14px;padding:24px;min-height:260px;max-height:680px;overflow:auto;font-family:Georgia,serif;font-size:17px;line-height:2}
+.bible-content .v{font-size:.68em;vertical-align:super;color:var(--green);font-family:Poppins,Arial,sans-serif;font-weight:800;margin-right:3px}
+.bible-content h1,.bible-content h2,.bible-content h3{font-family:"Playfair Display",serif;color:var(--green);line-height:1.3;margin:18px 0 8px}
+.bible-nav{display:flex;justify-content:space-between;gap:10px;margin-top:12px}.bible-nav .btn{min-width:130px}
+.bible-copy{font-size:9px;color:#6d7a73;margin-top:12px;line-height:1.5}
+.bible-search{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.bible-results{display:grid;gap:8px;margin-top:10px}.bible-result-button{width:100%;text-align:left;font:inherit;border:1px solid var(--border);border-radius:10px;padding:11px;background:#fff;cursor:pointer}.bible-result:hover{border-color:var(--gold);box-shadow:0 6px 16px rgba(5,45,31,.06)}.bible-result strong{color:var(--green);font-size:10px}.bible-result span{display:block;color:var(--muted);font-family:Georgia,serif;font-size:12px;margin-top:3px}
+@media(max-width:800px){.bible-controls{grid-template-columns:1fr 1fr}.bible-content{font-size:16px;padding:18px}.bible-nav .btn{min-width:0;flex:1}}
+@media(max-width:520px){.bible-controls{grid-template-columns:1fr}.bible-search{grid-template-columns:1fr}.bible-reader{padding:18px}}
+
 </style>
 </head>
 <body class="auth-locked">
@@ -234,7 +252,7 @@ footer{background:#03150f;padding:55px 0 30px}
         <a href="#about">About</a>
         <a href="#routine">Routine</a>
         <a href="#checkin">Check-In</a>
-        <a href="#resources">Resources</a>
+        <a href="#resources">Resources</a><a href="#bible">Bible</a>
         <a href="#daniel">Daniel GPT</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -496,7 +514,40 @@ footer{background:#03150f;padding:55px 0 30px}
       </div>
     </section>
 
-    <section id="daniel" class="section daniel-section">
+    
+
+<section id="bible" class="section light-section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <p class="eyebrow green">READ THE WORD</p>
+      <h2>Complete Bible Reader</h2>
+      <div class="heading-line"></div>
+      <p>Choose a Bible version, book and chapter. The complete chapter is shown in order, with all verses.</p>
+    </div>
+    <div class="bible-reader reveal">
+      <div class="bible-controls">
+        <label>Bible version<select id="bibleVersion"><option value="">Loading versions…</option></select></label>
+        <label>Book<select id="bibleBook" disabled><option value="">Choose a book</option></select></label>
+        <label>Chapter<select id="bibleChapter" disabled><option value="">Choose chapter</option></select></label>
+        <button id="bibleLoadBtn" class="btn btn-gold" type="button" disabled>Open Chapter</button>
+      </div>
+      <div id="bibleStatus" class="bible-status">Loading Bible versions…</div><div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button id="bibleStartReadingBtn" class="btn btn-gold" type="button">Start 15-Minute Reading Timer</button></div>
+      <div id="bibleContent" class="bible-content">Choose a Bible version, book and chapter to begin.</div>
+      <div class="bible-nav">
+        <button id="biblePrevBtn" class="btn btn-outline-dark" type="button" disabled>← Previous</button>
+        <button id="bibleNextBtn" class="btn btn-outline-dark" type="button" disabled>Next →</button>
+      </div>
+      <div class="bible-copy" id="bibleCopyright"></div>
+      <div class="bible-search">
+        <input id="bibleSearchInput" type="search" maxlength="120" placeholder="Search the whole Bible, e.g. God so loved the world">
+        <button id="bibleSearchBtn" class="btn btn-outline-dark" type="button">Search Bible</button>
+      </div>
+      <div id="bibleResults" class="bible-results"></div>
+    </div>
+  </div>
+</section>
+
+<section id="daniel" class="section daniel-section">
       <div class="container">
         <div class="section-heading reveal">
           <p class="eyebrow green">YOUR TEENS ASSISTANT</p>
@@ -558,7 +609,7 @@ footer{background:#03150f;padding:55px 0 30px}
 const API='/api';
 const ACTIVITY_REQUIRED=900;
 const TOTAL_REQUIRED=1800;
-const state={user:null,passage:null,readingSession:null,prayerSession:null,quiz:null,tickers:{reading:null,prayer:null},heartbeats:{reading:null,prayer:null},poll:null,awayTimer:null,chatHistory:[],lastAwayKey:'cop-away'};
+const state={user:null,passage:null,readingSession:null,prayerSession:null,quiz:null,tickers:{reading:null,prayer:null},heartbeats:{reading:null,prayer:null},poll:null,awayTimer:null,chatHistory:[],lastAwayKey:'cop-away',awaySnapshot:{reading:null,prayer:null},awayTransition:false};
 const $=id=>document.getElementById(id);
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 async function api(path,options={}){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),10000);try{const r=await fetch(API+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},credentials:'include',signal:controller.signal});let d={};try{d=await r.json()}catch{};if(!r.ok)throw new Error(d.error||'Something went wrong.');return d;}catch(e){if(e.name==='AbortError')throw new Error('Request timed out. Please check your connection.');throw e;}finally{clearTimeout(timeout);}}
@@ -568,7 +619,7 @@ function status(t,good=false){const el=$('authStatus');if(el){el.textContent=t||
 function setStep(n){const ids=['stepReading','stepFinal'];ids.forEach((id,i)=>{const e=$(id);if(!e)return;e.classList.remove('active','done');if(i<n)e.classList.add('done');if(i===n)e.classList.add('active');});}
 function stopTicker(kind){if(kind){if(state.tickers[kind]){clearInterval(state.tickers[kind]);state.tickers[kind]=null;}return;}Object.keys(state.tickers).forEach(k=>stopTicker(k));}
 function stopHeartbeat(kind){if(kind){if(state.heartbeats[kind]){clearInterval(state.heartbeats[kind]);state.heartbeats[kind]=null;}return;}Object.keys(state.heartbeats).forEach(k=>stopHeartbeat(k));}
-function activeNow(){return document.visibilityState==='visible';}
+function activeNow(){return document.visibilityState==='visible' && !document.hidden;}
 
 // Auth tabs
 function authTab(which){$('loginForm').classList.toggle('verify-hidden',which!=='login');$('registerForm').classList.toggle('verify-hidden',which!=='register');$('loginTab').classList.toggle('active',which==='login');$('registerTab').classList.toggle('active',which==='register');status('');$('newAccountBox').classList.add('verify-hidden');}
@@ -576,14 +627,19 @@ $('loginTab')?.addEventListener('click',()=>authTab('login'));$('registerTab')?.
 $('registerForm')?.addEventListener('submit',async e=>{e.preventDefault();const name=$('registerName').value.trim(),p1=$('registerPassword').value,p2=$('registerPassword2').value;const adminPin=$('adminPin')?.value.trim()||'';if(name.length<2)return status('Please enter your name.');if(p1!==p2)return status('Passwords do not match.');if(p1.length<8)return status('Password must be at least 8 characters.');try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({name,password:p1,adminPin})});$('newAccountBox').classList.remove('verify-hidden');$('newAccountBox').innerHTML=`<strong>Account created ✓</strong><span>Your Teen ID is <b>${esc(d.user.id)}</b>. Save this ID. You can use it with your password to log in next time.</span>`;$('registerForm').reset();status('Account created and logged in.',true);await boot(d.user);}catch(err){status(err.message);}});
 $('loginForm')?.addEventListener('submit',async e=>{e.preventDefault();try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({id:$('loginId').value.trim(),password:$('loginPassword').value})});await boot(d.user);}catch(err){status(err.message);}});
 $('logoutBtn')?.addEventListener('click',async()=>{try{await api('/auth/logout',{method:'POST'});}catch{}location.reload();});
+
+
 function account(u){$('accountName').textContent=u.name;$('accountMeta').textContent=`ID: ${u.id} · Streak: ${u.streak||0}`;$('accountAvatar').textContent=(u.name||'T').trim().charAt(0).toUpperCase();$('adminBadge').classList.toggle('verify-hidden',!u.isAdmin);$('adminPanel').classList.toggle('verify-hidden',!u.isAdmin);$('loginMeta').textContent=`Logged in: ${dt(u.loginAt)}`;const pn=$('navProfileName'),nl=$('navLogoutLink');if(pn){pn.textContent=(u.isAdmin?'ADMIN · ':'')+u.name;pn.classList.remove('verify-hidden')}if(nl)nl.classList.remove('verify-hidden');}
 async function boot(u){state.user=u;document.body.classList.remove('auth-locked');$('authGate').classList.add('verify-hidden');$('accountBar').classList.remove('verify-hidden');$('accountBar').style.display='block';account(u);
   // Never block the shared Today feed on passage/progress/history requests.
   $('checkinFeed').innerHTML='<div class="feed-row"><span>Checking today’s activity…</span></div>';
   const feedPromise=refreshFeed();
-  const jobs=[loadPassage(),handleAwayResetOnBoot(),restore(),refreshHistory()];
+  const jobs=[loadPassage(),loadBibleVersions(),refreshHistory()];
   if(u.isAdmin)jobs.push(refreshAdminHistory());
+  // Restore without starting timers, then apply the away/pause rule before resuming anything.
   await Promise.allSettled([feedPromise,...jobs]);
+  await restore(false);
+  if(document.visibilityState==='visible') await resumeTimersAfterAway();
   // One more feed refresh after boot so the latest records are shown immediately.
   await refreshFeed();
   startPolling();
@@ -600,9 +656,9 @@ const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 async function loadPassage(){try{const d=await api('/daily/passage');state.passage=d.passage;$('passageName').textContent=d.passage.title;$('passageRef').textContent=d.passage.reference;$('passageText').textContent=d.passage.text;$('passageDate').textContent=d.passage.date;$('totalDate').textContent=d.passage.date;if($('prayerDate'))$('prayerDate').textContent=d.passage.date;}catch(e){$('passageDate').textContent=e.message;}}
 function currentTotals(){const r=state.readingSession?.activeSeconds||0,p=state.prayerSession?.activeSeconds||0;return {readingSeconds:r,prayerSeconds:p,totalSeconds:Math.min(TOTAL_REQUIRED,r+p)};}
 function renderTotals(t=currentTotals()){$('activitySplit').innerHTML=`<div><strong>Bible:</strong> ${fmt(t.readingSeconds)} / 15:00</div><div><strong>Prayer:</strong> ${fmt(t.prayerSeconds)} / 15:00</div>`;$('totalStatus').textContent='Nothing is submitted until you click DONE FOR TODAY.';}
-async function restore(){try{const d=await api('/progress');if(d.completed){showCompleted(d.record);return;}$('doneTodayBtn').disabled=false;$('doneTodayBtn').textContent='DONE FOR TODAY';if(d.reading)state.readingSession=d.reading;if(d.prayer)state.prayerSession=d.prayer;renderRead(state.readingSession||null,d);renderPrayer(state.prayerSession||null,d);renderTotals(d);setStep(0);}catch(e){console.log(e)}}
-function renderRead(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('readingCard').classList.remove('verify-hidden');$('readingTimer').textContent=fmt(sec);$('readingFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('readingStatus').textContent='Bible reading completed — 15 minutes reached ✓';$('readingStatus').className='timer-status timer-ready';$('startReadingBtn').disabled=true;$('stopReadingBtn').disabled=true;return;}if(s?.status==='stopped'){$('readingStatus').textContent=`Reading paused at ${fmt(sec)}. Continue when ready.`;$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Continue Reading';$('stopReadingBtn').disabled=true;return;}if(s?.status==='active'){$('readingStatus').textContent='Reading is running. Start is locked; use Pause Reading to stop the clock.';$('startReadingBtn').disabled=true;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=false;}else{$('readingStatus').textContent='Start reading. Only DONE FOR TODAY saves the check-in.';$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=true;}}
-function renderPrayer(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('prayerCard').classList.remove('verify-hidden');$('prayerTimer').textContent=fmt(sec);$('prayerFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('prayerStatus').textContent='Prayer completed — 15 minutes reached ✓';$('prayerStatus').className='timer-status timer-ready';$('startPrayerBtn').disabled=true;$('stopPrayerBtn').disabled=true;return;}if(s?.status==='stopped'){$('prayerStatus').textContent=`Prayer paused at ${fmt(sec)}. Continue when ready.`;$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Continue Prayer';$('stopPrayerBtn').disabled=true;return;}if(s?.status==='active'){$('prayerStatus').textContent='Prayer is running. Start is locked; use Pause Prayer to stop the clock.';$('startPrayerBtn').disabled=true;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=false;}else{$('prayerStatus').textContent='Start prayer. Only DONE FOR TODAY saves the check-in.';$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=true;}}
+async function restore(autoStart=true){try{const d=await api('/progress');if(d.completed){showCompleted(d.record);return;}$('doneTodayBtn').disabled=false;$('doneTodayBtn').textContent='DONE FOR TODAY';if(d.reading)state.readingSession=d.reading;if(d.prayer)state.prayerSession=d.prayer;renderRead(state.readingSession||null,d);renderPrayer(state.prayerSession||null,d);renderTotals(d);setStep(0);if(autoStart&&document.visibilityState==='visible'){if(state.readingSession?.status==='active'){startTicker('reading');startHeartbeat('reading',state.readingSession.id);}if(state.prayerSession?.status==='active'){startTicker('prayer');startHeartbeat('prayer',state.prayerSession.id);}}}catch(e){console.log(e)}}
+function renderRead(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('readingCard').classList.remove('verify-hidden');$('readingTimer').textContent=fmt(sec);$('readingFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('readingStatus').textContent='15 minutes completed. You can go and pray now.';$('readingStatus').className='timer-status timer-ready';$('startReadingBtn').disabled=true;$('stopReadingBtn').disabled=true;return;}if(s?.status==='stopped'){$('readingStatus').textContent=`Reading paused at ${fmt(sec)}. Continue when ready.`;$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Continue Reading';$('stopReadingBtn').disabled=true;return;}if(s?.status==='active'){$('readingStatus').textContent='Reading is running. Start is locked; use Pause Reading to stop the clock.';$('startReadingBtn').disabled=true;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=false;}else{$('readingStatus').textContent='Start reading. Only DONE FOR TODAY saves the check-in.';$('startReadingBtn').disabled=false;$('startReadingBtn').textContent='Start Reading';$('stopReadingBtn').disabled=true;}}
+function renderPrayer(s,t=currentTotals()){const sec=Math.min(ACTIVITY_REQUIRED,s?.activeSeconds||0);$('prayerCard').classList.remove('verify-hidden');$('prayerTimer').textContent=fmt(sec);$('prayerFill').style.width=`${sec/ACTIVITY_REQUIRED*100}%`;if(sec>=ACTIVITY_REQUIRED){$('prayerStatus').textContent='15 minutes completed. You can finish your prayer now.';$('prayerStatus').className='timer-status timer-ready';$('startPrayerBtn').disabled=true;$('stopPrayerBtn').disabled=true;return;}if(s?.status==='stopped'){$('prayerStatus').textContent=`Prayer paused at ${fmt(sec)}. Continue when ready.`;$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Continue Prayer';$('stopPrayerBtn').disabled=true;return;}if(s?.status==='active'){$('prayerStatus').textContent='Prayer is running. Start is locked; use Pause Prayer to stop the clock.';$('startPrayerBtn').disabled=true;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=false;}else{$('prayerStatus').textContent='Start prayer. Only DONE FOR TODAY saves the check-in.';$('startPrayerBtn').disabled=false;$('startPrayerBtn').textContent='Start Prayer';$('stopPrayerBtn').disabled=true;}}
 function startTicker(kind){
   stopTicker(kind);
   const key=kind==='reading'?'readingSession':'prayerSession';
@@ -621,11 +677,11 @@ function startTicker(kind){
     if(kind==='reading'){
       $('readingTimer').textContent=fmt(shown);
       $('readingFill').style.width=`${shown/ACTIVITY_REQUIRED*100}%`;
-      $('readingStatus').textContent=shown>=ACTIVITY_REQUIRED?'Bible reading completed — 15 minutes reached ✓':'Reading timer running. Click Pause Timer to pause the clock.';
+      $('readingStatus').textContent=shown>=ACTIVITY_REQUIRED?'15 minutes completed. You can go and pray now.':'Reading timer running. Click Pause Timer to pause the clock.';
     }else{
       $('prayerTimer').textContent=fmt(shown);
       $('prayerFill').style.width=`${shown/ACTIVITY_REQUIRED*100}%`;
-      $('prayerStatus').textContent=shown>=ACTIVITY_REQUIRED?'Prayer completed — 15 minutes reached ✓':'Prayer timer running. Click Pause Timer to pause the clock.';
+      $('prayerStatus').textContent=shown>=ACTIVITY_REQUIRED?'15 minutes completed. You can finish your prayer now.':'Prayer timer running. Click Pause Timer to pause the clock.';
     }
     renderTotals({
       readingSeconds:kind==='reading'?shown:Number(state.readingSession?._display??state.readingSession?.activeSeconds??0),
@@ -675,14 +731,17 @@ async function maybeOpenQuiz(){return;}
 function startHeartbeat(kind,id){stopHeartbeat(kind);state.heartbeats[kind]=setInterval(()=>heartbeat(kind,id),2000);heartbeat(kind,id);}
 function startPolling(){if(state.poll)clearInterval(state.poll);state.poll=setInterval(()=>{refreshFeed();refreshHistory();if(state.user?.isAdmin)refreshAdminHistory();},2500);}
 function awayKey(kind,sessionId){return `${state.user?.id||'anon'}:${kind}:${sessionId}`;}
-async function markAway(){const now=Date.now();for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const s=state[key];if(s?.id&&s.status==='active')localStorage.setItem(`${state.lastAwayKey}:${awayKey(kind,s.id)}`,String(now));}}
-async function handleAwayResetOnReturn(){for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const s=state[key];if(!s?.id)continue;const k=`${state.lastAwayKey}:${awayKey(kind,s.id)}`;const t=Number(localStorage.getItem(k)||0);if(t&&Date.now()-t>=AWAY_RESET_MS){try{const d=await api('/activity/reset-after-away',{method:'POST',body:JSON.stringify({sessionId:s.id})});if(kind==='reading')state.readingSession=d.session;else state.prayerSession=d.session;localStorage.removeItem(k);}catch{} } else if(t){localStorage.removeItem(k);}}}
+function awayStorageKey(kind,sessionId){return `${state.lastAwayKey}:${awayKey(kind,sessionId)}`;}
+function awayDisplayKey(kind,sessionId){return `${awayStorageKey(kind,sessionId)}:display`;}
+function markAway(){const now=Date.now();for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const s=state[key];if(s?.id&&s.status==='active'){const display=Number(s._display??s.activeSeconds??0);state.awaySnapshot[kind]={at:now,display,id:s.id};localStorage.setItem(awayStorageKey(kind,s.id),String(now));localStorage.setItem(awayDisplayKey(kind,s.id),String(display));}}}
+async function pauseSessionForAway(kind){const key=kind==='reading'?'readingSession':'prayerSession';const s=state[key];if(!s?.id||s.status!=='active')return;try{await api('/activity/pause',{method:'POST',body:JSON.stringify({sessionId:s.id})});}catch{} }
+async function resetIfAwayTooLong(kind){const key=kind==='reading'?'readingSession':'prayerSession';const s=state[key];if(!s?.id)return false;const k=awayStorageKey(kind,s.id);const t=Number(localStorage.getItem(k)||0);if(!t)return false;if(Date.now()-t>=AWAY_RESET_MS){try{const d=await api('/activity/reset-after-away',{method:'POST',body:JSON.stringify({sessionId:s.id})});state[key]=d.session;state.awaySnapshot[kind]=null;localStorage.removeItem(k);localStorage.removeItem(awayDisplayKey(kind,s.id));if(kind==='reading')renderRead(state.readingSession);else renderPrayer(state.prayerSession);return true;}catch(e){console.log(e);}}return false;}
+async function pauseTimersForAway(){if(!state.user)return;markAway();stopTicker();stopHeartbeat();if(state.readingSession?.status==='active')$('readingStatus').textContent='Paused because you left the page. Return within 5 minutes to continue from the same time.';if(state.prayerSession?.status==='active')$('prayerStatus').textContent='Paused because you left the page. Return within 5 minutes to continue from the same time.';await Promise.all([pauseSessionForAway('reading'),pauseSessionForAway('prayer')]);}
+async function resumeTimersAfterAway(){if(!state.user||state.awayTransition)return;state.awayTransition=true;try{const wasReading=state.readingSession?.status==='active',wasPrayer=state.prayerSession?.status==='active';const readingSnap=state.awaySnapshot.reading||null,prayerSnap=state.awaySnapshot.prayer||null;const readingReset=await resetIfAwayTooLong('reading');const prayerReset=await resetIfAwayTooLong('prayer');if(readingReset||prayerReset){await restore(false);return;}for(const [kind,key,snap] of [['reading','readingSession',readingSnap],['prayer','prayerSession',prayerSnap]]){const s=state[key];if(!s?.id)continue;const awayAt=Number(localStorage.getItem(awayStorageKey(kind,s.id))||snap?.at||0);const awayMs=awayAt?Date.now()-awayAt:0;if(awayMs>=AWAY_RESET_MS)continue;try{const d=await api('/activity/resume',{method:'POST',body:JSON.stringify({sessionId:s.id})});state[key]=d.session;const storedDisplay=Number(localStorage.getItem(awayDisplayKey(kind,s.id))||snap?.display||0);state[key].activeSeconds=Math.max(Number(d.session.activeSeconds||0),storedDisplay);state[key]._display=state[key].activeSeconds;state[key]._displayBase=state[key].activeSeconds;state[key]._tickStartedAt=Date.now();localStorage.removeItem(awayStorageKey(kind,s.id));localStorage.removeItem(awayDisplayKey(kind,s.id));if(kind==='reading'&&wasReading)startTicker('reading');if(kind==='reading'&&wasReading)startHeartbeat('reading',s.id);if(kind==='prayer'&&wasPrayer)startTicker('prayer');if(kind==='prayer'&&wasPrayer)startHeartbeat('prayer',s.id);}catch(e){console.log(e);}}renderRead(state.readingSession||null);renderPrayer(state.prayerSession||null);renderTotals();}finally{state.awayTransition=false;}}
 const AWAY_RESET_MS=300000;
-async function handleAwayResetOnBoot(){await handleAwayResetOnReturn();}
-
-document.addEventListener('visibilitychange',()=>{if(state.readingSession?.id)heartbeat('reading',state.readingSession.id);if(state.prayerSession?.id)heartbeat('prayer',state.prayerSession.id);if(!activeNow()){markAway();stopTicker();if(state.readingSession?.status==='active')$('readingStatus').textContent='Paused because the page is hidden. Return to continue.';if(state.prayerSession?.status==='active')$('prayerStatus').textContent='Paused because the page is hidden. Return to continue.';}else{handleAwayResetOnReturn().then(()=>{if(state.readingSession?.status==='active')startTicker('reading');if(state.prayerSession?.status==='active')startTicker('prayer');restore();});}});
-window.addEventListener('beforeunload',()=>{markAway();});
-
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){pauseTimersForAway();}else{resumeTimersAfterAway();}});
+window.addEventListener('pagehide',()=>{markAway();stopTicker();stopHeartbeat();for(const [kind,key] of [['reading','readingSession'],['prayer','prayerSession']]){const id=state[key]?.id;if(!id)continue;try{fetch(`${API}/activity/pause`,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({sessionId:id}),keepalive:true});}catch{}}});
+window.addEventListener('pageshow',()=>{if(document.visibilityState==='visible')resumeTimersAfterAway();});
 // Reading
 $('startReadingBtn')?.addEventListener('click',async()=>{try{const t=currentTotals();const current=state.readingSession;if(current?.status==='active')return;if((current?.activeSeconds||0)>=900){await maybeOpenQuiz();return;}const endpoint=current?.status==='stopped'?'/reading/start':'/reading/start';const d=await api(endpoint,{method:'POST'});state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;state.readingSession._displayBase=d.session.activeSeconds;renderRead(d.session,t);renderTotals({...t,readingSeconds:d.session.activeSeconds,totalSeconds:Math.min(TOTAL_REQUIRED,d.session.activeSeconds+(state.prayerSession?.activeSeconds||0))});startTicker('reading');startHeartbeat('reading',d.session.id);}catch(e){$('readingStatus').textContent=e.message;}});
 $('stopReadingBtn')?.addEventListener('click',async()=>{if(!state.readingSession?.id)return;stopTicker('reading');stopHeartbeat('reading');try{const d=await api('/reading/stop',{method:'POST',body:JSON.stringify({sessionId:state.readingSession.id})});state.readingSession=d.session;state.readingSession._display=d.session.activeSeconds;renderRead(d.session);renderTotals();}catch(e){$('readingStatus').textContent=e.message;}});
@@ -719,6 +778,54 @@ async function refreshHistory(){try{const d=await api('/history');$('myHistory')
 async function refreshAdminHistory(){if(!state.user?.isAdmin)return;try{const d=await api('/admin/history');const wrap=$('adminHistory');if(!d.dates.length){wrap.innerHTML='<div class="history-row"><span>No teen check-ins yet.</span></div>';return;}wrap.innerHTML=d.dates.map(day=>`<div style="margin:14px 0 6px;font-weight:800;color:var(--gold)">${esc(day.date)}</div>`+day.records.map(r=>`<div class="history-row"><strong>${esc(r.name)}</strong><span>${esc(r.publicId)}</span><span>${fmt(r.readingSeconds)} read · ${fmt(r.prayerSeconds)} prayed · ${fmt((r.readingSeconds||0)+(r.prayerSeconds||0))} total</span><span>${r.completionType==='full'?'Full':'Partial'} · ${dt(r.completedAt)}</span></div>`).join('')).join('');}catch(e){$('adminHistory').innerHTML='<div class="history-row"><span>'+esc(e.message)+'</span></div>';}}
 
 // Daniel GPT
+
+// Bible reader
+const bibleState={bibles:[],books:[],currentBook:null,currentChapter:null};
+async function loadBibleVersions(){
+  try{
+    const d=await api('/bible/versions'); bibleState.bibles=d.bibles||[];
+    const sel=$('bibleVersion'); sel.innerHTML='<option value="">Choose a Bible version</option>'+bibleState.bibles.map(b=>`<option value="${esc(b.id)}">${esc(b.name)}${b.abbreviation?` (${esc(b.abbreviation)})`:''}</option>`).join('');
+    $('bibleStatus').textContent=bibleState.bibles.length?'Choose a version, then a book and chapter.':'No Bible versions are authorized for this account yet.';
+  }catch(e){$('bibleVersion').innerHTML='<option value="">Bible service unavailable</option>';$('bibleStatus').textContent=e.message;}
+}
+async function loadBibleBooks(){
+  const id=$('bibleVersion').value; $('bibleBook').innerHTML='<option value="">Loading books…</option>'; $('bibleBook').disabled=true; $('bibleChapter').innerHTML='<option value="">Choose chapter</option>'; $('bibleChapter').disabled=true; $('bibleLoadBtn').disabled=true;
+  if(!id)return;
+  try{const d=await api('/bible/books?bibleId='+encodeURIComponent(id));bibleState.books=d.books||[];$('bibleBook').innerHTML='<option value="">Choose a book</option>'+bibleState.books.map(b=>`<option value="${esc(b.id)}">${esc(b.name)}</option>`).join('');$('bibleBook').disabled=false;$('bibleStatus').textContent='Now choose a book and chapter.';}catch(e){$('bibleStatus').textContent=e.message;}
+}
+function loadBibleChapters(){const book=bibleState.books.find(b=>b.id===$('bibleBook').value);bibleState.currentBook=book||null;$('bibleChapter').innerHTML='<option value="">Choose chapter</option>'+(book?.chapters||[]).map(c=>`<option value="${esc(c.id)}">Chapter ${esc(c.number)}</option>`).join('');$('bibleChapter').disabled=!book;$('bibleLoadBtn').disabled=!book;}
+function getAdjacentBibleChapter(direction){
+  const current=bibleState.currentChapter; if(!current||!bibleState.books.length)return null;
+  const bookIndex=bibleState.books.findIndex(b=>String(b.id)===String(current.bookId));
+  if(bookIndex<0)return null;
+  const book=bibleState.books[bookIndex];
+  const n=Number(current.number||0);
+  const chapterIndex=(book.chapters||[]).findIndex(c=>Number(c.number)===n);
+  if(chapterIndex<0)return null;
+  if(direction>0){
+    if(chapterIndex+1<(book.chapters||[]).length)return (book.chapters||[])[chapterIndex+1].id;
+    const nextBook=bibleState.books[bookIndex+1];
+    return nextBook?.chapters?.[0]?.id||null;
+  }
+  if(chapterIndex>0)return (book.chapters||[])[chapterIndex-1].id;
+  const prevBook=bibleState.books[bookIndex-1];
+  return prevBook?.chapters?.[prevBook.chapters.length-1]?.id||null;
+}
+async function openBibleChapter(chapterId){
+  const bibleId=$('bibleVersion').value; let cid=chapterId||$('bibleChapter').value; if(!bibleId||!cid)return;
+  if(String(cid).split('.').length>=3){const parts=String(cid).split('.');cid=parts.slice(0,2).join('.');}
+  $('bibleStatus').textContent='Opening the complete chapter…';$('bibleContent').innerHTML='<p>Loading Scripture…</p>';
+  try{const d=await api('/bible/chapter?bibleId='+encodeURIComponent(bibleId)+'&chapterId='+encodeURIComponent(cid));bibleState.currentChapter=d.chapter;$('bibleContent').innerHTML=d.chapter.content||'<p>No chapter content was returned.</p>';$('bibleCopyright').textContent=[d.versionName,d.copyright].filter(Boolean).join(' — ');$('bibleStatus').textContent=`${d.versionName||'Bible'} · ${d.chapter.bookId||''} ${d.chapter.number||''}`;
+    const prevId=getAdjacentBibleChapter(-1), nextId=getAdjacentBibleChapter(1);
+    $('biblePrevBtn').disabled=!prevId; $('bibleNextBtn').disabled=!nextId; $('biblePrevBtn').dataset.id=prevId||''; $('bibleNextBtn').dataset.id=nextId||'';
+    $('bibleBook').value=d.chapter.bookId||''; loadBibleChapters(); $('bibleChapter').value=d.chapter.id||cid;
+    if(d.fumsJsInclude){const old=document.getElementById('bibleFums');if(old)old.remove();const sc=document.createElement('script');sc.id='bibleFums';sc.src='https://'+d.fumsJsInclude;document.body.appendChild(sc);}if(d.fumsJs){try{new Function(d.fumsJs)();}catch{}}$('bibleContent').scrollTop=0;
+  }catch(e){$('bibleContent').innerHTML='<p>Unable to load this chapter.</p>';$('bibleStatus').textContent=e.message;}
+}
+async function searchBible(){const bibleId=$('bibleVersion').value,q=$('bibleSearchInput').value.trim();if(!bibleId||!q)return;$('bibleResults').innerHTML='<div class="bible-status">Searching the whole Bible…</div>';try{const d=await api('/bible/search?bibleId='+encodeURIComponent(bibleId)+'&query='+encodeURIComponent(q)+'&limit=30');const results=d.results||[];$('bibleResults').innerHTML=results.map(r=>`<button type="button" class="bible-result bible-result-button" data-id="${esc(r.id||'')}"><strong>${esc(r.reference)}</strong><span>${esc(r.text)}</span></button>`).join('')||'<div class="bible-status">No matching passage was found. Try fewer words.</div>';document.querySelectorAll('.bible-result-button').forEach(btn=>btn.addEventListener('click',()=>openBibleChapter(btn.dataset.id)));}catch(e){$('bibleResults').innerHTML=`<div class="bible-status">${esc(e.message)}</div>`;}}
+$('bibleStartReadingBtn')?.addEventListener('click',()=>$('startReadingBtn')?.click());
+$('bibleVersion')?.addEventListener('change',loadBibleBooks);$('bibleBook')?.addEventListener('change',loadBibleChapters);$('bibleLoadBtn')?.addEventListener('click',()=>openBibleChapter());$('biblePrevBtn')?.addEventListener('click',()=>openBibleChapter($('biblePrevBtn').dataset.id));$('bibleNextBtn')?.addEventListener('click',()=>openBibleChapter($('bibleNextBtn').dataset.id));$('bibleSearchBtn')?.addEventListener('click',searchBible);$('bibleSearchInput')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchBible();}});
+
 const chatForm=$('chatForm'),chatInput=$('chatInput'),chatArea=$('chatArea'),chatButton=chatForm?.querySelector('button');
 function chatAdd(text,who){const row=document.createElement('div');row.className=`message-row ${who}`;row.innerHTML=`<div class="mini-avatar">${who==='user'?'Y':'D'}</div><div class="bubble"><strong>${who==='user'?'You':'Daniel GPT'}</strong><p>${esc(text)}</p></div>`;chatArea.appendChild(row);chatArea.scrollTop=chatArea.scrollHeight;return row;}
 chatForm?.addEventListener('submit',async e=>{e.preventDefault();const q=chatInput.value.trim();if(!q)return;state.chatHistory.push({role:'user',content:q});chatAdd(q,'user');chatInput.value='';chatButton&&(chatButton.disabled=true);const wait=chatAdd('I’m studying the question…','bot');try{const d=await api('/chat',{method:'POST',body:JSON.stringify({question:q,messages:state.chatHistory.slice(-12)})});wait.remove();state.chatHistory.push({role:'assistant',content:d.answer});chatAdd(d.answer,'bot');}catch(err){wait.remove();chatAdd(err.message,'bot');}finally{chatButton&&(chatButton.disabled=false);chatInput.focus();}});
