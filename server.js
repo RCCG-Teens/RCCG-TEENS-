@@ -157,13 +157,80 @@ app.post('/api/prayer/stop',auth,async(req,res)=>{
 
 app.post('/api/reflection',auth,async(req,res)=>{try{const text=String(req.body?.reflection||'').trim();if(text.length<10||text.length>600)return res.status(400).json({error:'Please provide a short reflection of 10–600 characters.'});const date=localDate();const x=await supabase.from('reflections').upsert({user_id:req.user.id,date,text,created_at:new Date().toISOString()},{onConflict:'user_id,date'}).select().single();if(x.error)throw x.error;res.json({reflection:{text:x.data.text}});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/checkin/partial',auth,async(req,res)=>{try{const date=localDate();const reading=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const r=await savePartial(req.user,reading,prayer);res.json({record:recordOut(r)});}catch(e){res.status(500).json({error:e.message});}});
-app.post('/api/checkin/done',auth,async(req,res)=>{try{const date=localDate();const existing=await latestRecord(req.user.id,date);if(existing)return res.status(409).json({error:'You have already checked in today. Please come back tomorrow.'});const ids=[String(req.body?.readingSessionId||''),String(req.body?.prayerSessionId||'')].filter(Boolean);for(const id of ids){const sess=await getSession(id);if(sess&&sess.user_id===req.user.id&&sess.date===date&&['reading','prayer'].includes(sess.kind)&&sess.status==='active')await updateHeartbeat(sess,true);}const now=new Date().toISOString();for(const id of ids){const x=await supabase.from('activity_sessions').update({status:'stopped',stopped_at:now,stop_reason:'done-for-today'}).eq('id',id).eq('user_id',req.user.id);if(x.error)throw x.error;}const reading=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prev=await streak(req.user.id,date);const r0=await savePartial(req.user,reading,prayer);const nextStreak=(prev||0)+1;const ur=await supabase.from('daily_records').update({streak:nextStreak}).eq('id',r0.id).select().single();if(ur.error)throw ur.error;await supabase.from('users').update({streak:nextStreak,last_checkin_date:date}).eq('id',req.user.id);res.json({record:recordOut(ur.data)});}catch(e){console.error(e);res.status(500).json({error:e.message});}});
+app.post('/api/checkin/done',auth,async(req,res)=>{
+  try{
+    const date=localDate();
+    const existing=await latestRecord(req.user.id,date);
+    if(existing)return res.status(409).json({error:'You have already checked in today. Please come back tomorrow.'});
+
+    const ids=[String(req.body?.readingSessionId||''),String(req.body?.prayerSessionId||'')].filter(Boolean);
+
+    // The browser keeps the exact active seconds locally. Use those values
+    // at final submission so a delayed/missed heartbeat cannot shorten the record.
+    const requestedByKind={
+      reading:Number(req.body?.readingDisplaySeconds),
+      prayer:Number(req.body?.prayerDisplaySeconds)
+    };
+
+    const now=new Date().toISOString();
+    for(const id of ids){
+      const sess=await getSession(id);
+      if(!sess||sess.user_id!==req.user.id||sess.date!==date||!['reading','prayer'].includes(sess.kind))
+        continue;
+
+      const requested=requestedByKind[sess.kind];
+      const current=Number(sess.active_seconds||0);
+      const activeSeconds=Number.isFinite(requested)
+        ?Math.min(ACTIVITY_REQUIRED,Math.max(current,requested))
+        :current;
+
+      const x=await supabase.from('activity_sessions').update({
+        active_seconds:activeSeconds,
+        last_heartbeat_at:now,
+        status:'stopped',
+        stopped_at:now,
+        stop_reason:'done-for-today'
+      }).eq('id',id).eq('user_id',req.user.id);
+      if(x.error)throw x.error;
+    }
+
+    const reading=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;
+    const prayer=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;
+    const prev=await streak(req.user.id,date);
+    const r0=await savePartial(req.user,reading,prayer);
+    const nextStreak=(prev||0)+1;
+    const ur=await supabase.from('daily_records').update({streak:nextStreak}).eq('id',r0.id).select().single();
+    if(ur.error)throw ur.error;
+    await supabase.from('users').update({streak:nextStreak,last_checkin_date:date}).eq('id',req.user.id);
+    res.json({record:recordOut(ur.data)});
+  }catch(e){console.error(e);res.status(500).json({error:e.message});}
+});
 app.post('/api/checkin/full',auth,async(req,res)=>{try{const date=localDate();const existing=await latestRecord(req.user.id,date);if(existing)return res.status(409).json({error:'You have already checked in today.'});const reading=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','reading').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const prayer=(await supabase.from('activity_sessions').select('*').eq('user_id',req.user.id).eq('date',date).eq('kind','prayer').order('started_at',{ascending:false}).limit(1).maybeSingle()).data;const reflection=(await supabase.from('reflections').select('*').eq('user_id',req.user.id).eq('date',date).maybeSingle()).data;const totals=await dailyTotals(req.user.id,date);if(!reading||!reading.quiz_score||reading.quiz_score<3)return res.status(400).json({error:'Complete Bible verification first.'});if(totals.readingSeconds<ACTIVITY_REQUIRED)return res.status(400).json({error:'Complete 15 active minutes of Bible reading first.'});if(!reflection)return res.status(400).json({error:'Submit your reflection first.'});const r=await fullRecord(req.user,reading,prayer,reflection.text);res.json({record:recordOut(r)});}catch(e){res.status(500).json({error:e.message});}});
 
 app.get('/api/admin/history',auth,async(req,res)=>{try{if(!req.user.is_admin)return res.status(403).json({error:'Admin access only.'});const r=await supabase.from('daily_records').select('*').order('date',{ascending:false}).order('name',{ascending:true});if(r.error)throw r.error;const grouped={};for(const x of (r.data||[])){if(!grouped[x.date])grouped[x.date]=[];grouped[x.date].push(recordOut(x));}res.json({dates:Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).map(date=>({date,records:grouped[date].sort((a,b)=>a.name.localeCompare(b.name))}))});}catch(e){res.status(500).json({error:e.message});}});
 app.get('/api/admin/summary',auth,async(req,res)=>{try{if(!req.user.is_admin)return res.status(403).json({error:'Admin access only.'});const today=localDate();const users=await supabase.from('users').select('id,public_id,name,is_admin,created_at').order('name',{ascending:true});if(users.error)throw users.error;const todayRecs=await supabase.from('daily_records').select('user_id,public_id,name,active_reading_seconds,active_prayer_seconds,completion_type,completed_at').eq('date',today).order('name',{ascending:true});if(todayRecs.error)throw todayRecs.error;res.json({today,users:users.data||[],todayRecords:todayRecs.data||[]});}catch(e){res.status(500).json({error:e.message});}});
 
-app.post('/api/activity/pause',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({last_heartbeat_at:now}).eq('id',id).eq('user_id',req.user.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
+app.post('/api/activity/pause',auth,async(req,res)=>{
+  try{
+    const id=String(req.body?.sessionId||'');
+    const s=await getSession(id);
+    if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))
+      return res.status(404).json({error:'Activity session not found.'});
+
+    const requested=Number(req.body?.displaySeconds);
+    const current=Number(s.active_seconds||0);
+    const activeSeconds=Number.isFinite(requested)
+      ?Math.min(ACTIVITY_REQUIRED,Math.max(current,requested))
+      :current;
+
+    const now=new Date().toISOString();
+    const x=await supabase.from('activity_sessions')
+      .update({active_seconds:activeSeconds,last_heartbeat_at:now,status:'stopped',stopped_at:now,stop_reason:'pause'})
+      .eq('id',id).eq('user_id',req.user.id).select().single();
+    if(x.error)throw x.error;
+    res.json({session:sessionOut(x.data)});
+  }catch(e){res.status(500).json({error:e.message});}
+});
 app.post('/api/activity/resume',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({status:'active',last_heartbeat_at:now,stopped_at:null,stop_reason:null}).eq('id',id).eq('user_id',req.user.id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data)});}catch(e){res.status(500).json({error:e.message});}});
 app.post('/api/activity/reset-after-away',auth,async(req,res)=>{try{const id=String(req.body?.sessionId||'');const s=await getSession(id);if(!s||s.user_id!==req.user.id||!['reading','prayer'].includes(s.kind))return res.status(404).json({error:'Activity session not found.'});const now=new Date().toISOString();const x=await supabase.from('activity_sessions').update({active_seconds:0,last_heartbeat_at:now,stopped_at:null,stop_reason:'reset-after-away',status:'stopped'}).eq('id',id).select().single();if(x.error)throw x.error;res.json({session:sessionOut(x.data),message:'More than 5 minutes away. This timer has restarted from 00:00.'});}catch(e){res.status(500).json({error:e.message});}});
 
